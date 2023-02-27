@@ -3,6 +3,15 @@ require("dotenv").config()
 const express = require("express")
 const mongoose = require("mongoose")
 
+const admin = require("firebase-admin")
+const serviceAccount = require("./serviceAccount.json")
+
+admin.initializeApp({
+  credential:admin.credential.cert(serviceAccount),
+  storageBucket:process.env.STORAGE_BUCKET
+})
+
+module.exports = {admin:admin}
 
 //routes path
 const adminRoutes = require("./routes/adminRoutes")
@@ -17,7 +26,9 @@ App.use(express.json())
 
 
 
-//Route
+//Routes
+
+//admin routes
 App.use('/api/admin',adminRoutes)
 
 

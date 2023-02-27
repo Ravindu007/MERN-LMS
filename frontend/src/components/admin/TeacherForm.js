@@ -11,6 +11,7 @@ const TeacherForm = () => {
   const [userRole,setUserRole] = useState("")
   const [department,setDepartment] = useState("")
   const [subject, setSubject] = useState("")
+  const [image, setImage] = useState(null)
 
   const addTeacher = async(e) => {
     e.preventDefault()
@@ -24,6 +25,7 @@ const TeacherForm = () => {
     formData.append('userRole',userRole)
     formData.append('department',department)
     formData.append('subject',subject)
+    formData.append('teacherImage', image)
 
     const response = await fetch("/api/admin/users/teachers",{
       method:"POST",
@@ -96,11 +98,11 @@ const TeacherForm = () => {
         <div className="form-group">
           <label>User Role</label>
           <select 
-            class="form-select" 
+            className="form-select" 
             onChange={e=>{setUserRole(e.target.value)}}
             value={userRole}
           >
-            <option selected>Select</option>
+            <option>Select</option>
             <option value="teacher">Teacher</option>
             <option value="student">Student</option>
         </select>
@@ -121,6 +123,15 @@ const TeacherForm = () => {
             type="text"
             onChange={e=>{setSubject(e.target.value)}}
             value={subject}
+          />
+        </div>
+        <div className="form-group">
+          <label>Image</label>
+          <input 
+            className='form-control'
+            type="file"
+            name="teacherImage"
+            onChange={e=>{setImage(e.target.files[0])}}
           />
         </div>
         <button className='btn btn-outline-primary'>Add Teacher</button>

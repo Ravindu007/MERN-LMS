@@ -1,3 +1,8 @@
+const {admin} = require("../server")
+
+const bucket = admin.storage().bucket(process.env.STORAGE_BUCKET)
+
+
 //models
 const lmsUserTeacherModel = require("../models/lmsUserTeacherModel")
 
@@ -39,18 +44,54 @@ const createTeacherUser = async(req,res)=>{
         } = req.body
 
   try {
-    const createTeacher = await lmsUserTeacherModel.create({
-      fullName,
-      firstName,
-      lastName,
-      email,
-      phoneNumber,
-      userRole,
-      department,
-      subject
-    })
-  
-    res.status(200).json(createTeacher)
+    let imageUrl = null 
+    
+    if(req.file){
+      const fileName = req.file.originalname 
+      const file  = bucket.file(fileName)
+      
+      const stream = file.createWriteStream({
+        metadata:{
+          contentType:req.file.mimetype
+        }
+      })
+
+      stream.on("error",(err)=>{
+        console.error(err);
+      })
+
+      stream.on("finish",async()=>{
+        imageUrl = `https://storage.googleapis.com/${bucket.name}/${fileName}`;
+
+        const createTeacher = await lmsUserTeacherModel.create({
+          fullName,
+          firstName,
+          lastName,
+          email,
+          phoneNumber,
+          userRole,
+          department,
+          subject,
+          teacherImage:imageUrl
+        })
+        res.status(200).json(createTeacher)
+      })
+      stream.end(req.file.buffer)
+    }else{
+      const createTeacher = await lmsUserTeacherModel.create({
+        fullName,
+        firstName,
+        lastName,
+        email,
+        phoneNumber,
+        userRole,
+        department,
+        subject,
+        teacherImage:null
+      })
+    
+      res.status(200).json(createTeacher)
+    }
   } catch (error) {
     res.status(400).json(error)
   }
@@ -60,10 +101,49 @@ const updateTeacherUsers = async(req,res)=>{
   const {id} = req.params
 
   try {
-    const updatedTeacherUser = await lmsUserTeacherModel.findByIdAndUpdate({_id:id},{...req.body},{new:true})
+    const teacherUser = await lmsUserTeacherModel.findById({id})
 
-    if(!updatedTeacherUser){
-      res.status(404).json("There is no such doc")
+    if(!teacherUser){
+      res.status(404).json("There is no such user")
+    }
+
+    //update properties with the req.body 
+    teacherUser.email = req.body.email || teacherUser.email
+    teacherUser.phoneNumber = req.body.phoneNumber || teacherUser.phoneNumber
+    teacherUser.department = req.body.department || teacherUser.department
+    teacherUser.subject = req.body.subject || teacherUser.subject
+
+
+
+    let imageUrl = null 
+
+    if(req.file){
+      const fileName = req.file.originalname 
+      const file  = bucket.file(fileName)
+      
+      const stream = file.createWriteStream({
+        metadata:{
+          contentType:req.file.mimetype
+        }
+      })
+
+      stream.on("error",(err)=>{
+        console.error(err);
+      })
+
+      stream.on("finish",async()=>{
+        imageUrl = `https://storage.googleapis.com/${bucket.name}/${fileName}`;
+
+        teacherUser.teacherImage = imageUrl
+        const updatedTeacherUser = await lmsUserTeacherModel.save()
+
+        res.status(200).json(updatedTeacherUser)
+      })
+      stream.end(req.file.buffer)
+    }else{
+      const updatedTeacherUser = await lmsUserTeacherModel.save()
+
+      res.status(200).json(updatedTeacherUser)
     }
   } catch (error) {
     res.status(400).json(error)

@@ -5,16 +5,20 @@ const {createTeacherUser, getAllTeacherUsers, getSingleTeacherUser, updateTeache
 
 const router = express.Router()
 
-const uploadUsers = multer()
+const upload = multer({
+  storage:multer.memoryStorage()
+})
+
+
 
 //admin - USER  Routes
 
 //get all created teacher - users
 router.get("/users/teachers", getAllTeacherUsers)
 
-router.post("/users/teachers", uploadUsers.none(), createTeacherUser)
+router.post("/users/teachers", upload.single('teacherImage'), createTeacherUser)
 
-router.patch("/users/teachers/:id",updateTeacherUsers)
+router.patch("/users/teachers/:id",upload.single('teacherImage'), updateTeacherUsers)
 
 router.delete("/users/teachers/:id",deleteTeacherUsers)
 
