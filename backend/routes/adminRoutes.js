@@ -1,6 +1,6 @@
 const express = require("express")
 
-const {createTeacherUser, getAllTeacherUsers, updateTeacherUsers, deleteTeacherUsers} = require("../controllers/lmsUserControllers")
+const {createTeacherUser, getAllTeacherUsers, getSingleTeacherUser, updateTeacherUsers, deleteTeacherUsers} = require("../controllers/lmsUserControllers")
 
 const router = express.Router()
 

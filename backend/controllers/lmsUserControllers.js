@@ -11,6 +11,22 @@ const getAllTeacherUsers = async(req,res)=>{
   }
 }
 
+const getSingleTeacherUser = async(req,res) => {
+  const {id} = req.params
+
+  try {
+    const singleTeacherUser = await lmsUserTeacherModel.findById(id)
+
+    if(!singleTeacherUser){
+      res.status(404).json("There is no such doc")
+    }
+
+    res.status(200).json(singleTeacherUser)
+  } catch (error) {
+    res.status(400).json(error)
+  }
+}
+
 const createTeacherUser = async(req,res)=>{
   const {fullName,
          firstName,
@@ -40,8 +56,34 @@ const createTeacherUser = async(req,res)=>{
   }
 }
 
-const updateTeacherUsers = async(req,res)=>{}
+const updateTeacherUsers = async(req,res)=>{
+  const {id} = req.params
 
-const deleteTeacherUsers = async(req,res)=>{}
+  try {
+    const updatedTeacherUser = await lmsUserTeacherModel.findByIdAndUpdate({_id:id},{...req.body},{new:true})
 
-module.exports = {createTeacherUser, getAllTeacherUsers, updateTeacherUsers, deleteTeacherUsers}
+    if(!updatedTeacherUser){
+      res.status(404).json("There is no such doc")
+    }
+  } catch (error) {
+    res.status(400).json(error)
+  }
+}
+
+const deleteTeacherUsers = async(req,res)=>{
+  const {id} = req.params
+
+  try {
+    const deletedTeacherUser = await lmsUserTeacherModel.findByIdAndDelete(id)
+
+    if(!deletedTeacherUser){
+      res.status(404).json("There is no such doc")
+    }
+    res.status(200).json(deletedTeacherUser)
+
+  } catch (error) {
+    res.status(200).json(error)
+  }
+}
+
+module.exports = {createTeacherUser, getAllTeacherUsers, getSingleTeacherUser, updateTeacherUsers, deleteTeacherUsers}
