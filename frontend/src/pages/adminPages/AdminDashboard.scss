@@ -1,0 +1,15 @@
+.admin-dashboard{
+  display: flex;
+  justify-content: center;
+
+
+  .dashboard-tabs{
+    margin-top: 190px;
+    display: flex;
+
+    button{
+      margin: 0px 50px;
+      padding: 50px;
+    }
+  }
+}
