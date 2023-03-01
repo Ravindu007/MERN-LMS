@@ -1,9 +1,10 @@
-import "./Tab.scss"
+import "./subjectTab.scss"
 
 import React, { useEffect } from 'react'
 
 import SubjectComponent from "../../components/admin/SubjectComponent"
 import { useSubjectContext } from "../../hooks/useSubject"
+import SubjectForm from "../../components/admin/SubjectForm"
 
 const SubjectTab = () => {
 
@@ -29,11 +30,13 @@ const SubjectTab = () => {
         <div className="col-8 items">
           {subjects && 
             subjects.map((subject)=>(
-              <SubjectComponent  key={subject._id} subject={subject}/>
+              <div className="item">
+                <SubjectComponent  key={subject._id} subject={subject}/>
+              </div>
             ))}
         </div>
         <div className="col-4 add-item">
-          {/* <TeacherForm/> */}
+          {<SubjectForm/>}
         </div>
       </div>
     </div>
