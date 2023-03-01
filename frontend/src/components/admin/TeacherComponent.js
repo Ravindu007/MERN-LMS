@@ -1,8 +1,11 @@
 import React, { useState } from 'react'
+import { useLmsUserContext } from '../../hooks/useLmsUser'
 
 import "./TeacherComponent.scss"
 
 const TeacherComponent = ({teacher}) => {
+
+  const {dispatch} = useLmsUserContext()
 
   const [isEditing, setIsEditing] = useState(false)
 
@@ -39,11 +42,22 @@ const TeacherComponent = ({teacher}) => {
       setDraftDepartment("")
       setDraftSubject("")
       setDraftImage(null)
+      dispatch({type:"UPDATE_LMSUSER", payload:json})
     }
   }
 
-  const handleDelete = async() => {
+  const handleDelete = async(e) => {
+    e.preventDefault()
 
+    const response = await fetch("/api/admin/users/teachers/" + teacher._id,{
+      method: "DELETE"
+    })
+
+    const json = await response.json()
+
+    if(response.ok){
+      dispatch({type:"DELETE_LMSUSER", payload:json})
+    }
   }
 
 
@@ -63,7 +77,7 @@ const TeacherComponent = ({teacher}) => {
             <p><strong>Subject: </strong>{teacher.subject}</p>
           </div>
           <div className="col-5 img-part">
-            <img src={teacher.teacherImage ? `${teacher.teacherImage}`:"/fallback.jpg"} className="mx-auto d-block img-fluid" />
+            <img src={teacher.teacherImage ? `${teacher.teacherImage}`:"/fallback.jpg"} className="mx-auto d-block img-fluid" alt={teacher.teacherImage} />
             <div className="buttons">
               <button 
                 onClick={()=>{
@@ -73,8 +87,16 @@ const TeacherComponent = ({teacher}) => {
                   setDraftDepartment(teacher.department)
                   setDraftSubject(teacher.subject)
                 }} 
-                className='btn btn-outline-success'>Update</button>
-              <button onClick={handleUpdate} className='btn btn-outline-danger'>Delete</button>
+                className='btn btn-outline-success'
+                >
+                  Update
+                </button>
+              <button 
+                onClick={handleDelete} 
+                className='btn btn-outline-danger'
+                >
+                  Delete
+                </button>
             </div>
           </div>
         </div>

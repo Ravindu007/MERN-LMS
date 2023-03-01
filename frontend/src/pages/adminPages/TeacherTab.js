@@ -1,12 +1,15 @@
 import "./Tab.scss"
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import TeacherComponent from '../../components/admin/TeacherComponent'
 import TeacherForm from "../../components/admin/TeacherForm"
 
+import {useLmsUserContext} from "../../hooks/useLmsUser"
+
 const TeacherTab = () => {
 
-  const[teachers, setTeachers] = useState("")
+  const {lmsUsers, dispatch} = useLmsUserContext()
+
 
   useEffect(()=>{
     const fetchALLTeachers = async() =>{
@@ -14,7 +17,7 @@ const TeacherTab = () => {
       const json = await response.json()
 
       if(response.ok){
-        setTeachers(json)
+        dispatch({type:"SET_LMSUSERS", payload:json})
       }
     }
 
@@ -26,9 +29,9 @@ const TeacherTab = () => {
     <div className="tab">
       <div className="row">
         <div className="col-8 items">
-          {teachers && 
-            teachers.map((teacher)=>(
-              <TeacherComponent  key={teacher._id} teacher={teacher}/>
+          {lmsUsers && 
+            lmsUsers.map((lmsUser)=>(
+              <TeacherComponent  key={lmsUser._id} teacher={lmsUser}/>
             ))}
         </div>
         <div className="col-4 add-item">

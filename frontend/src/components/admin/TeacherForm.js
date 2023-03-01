@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
+import { useLmsUserContext } from '../../hooks/useLmsUser'
 
 const TeacherForm = () => {
+
+  const {dispatch} = useLmsUserContext()
 
   //input fields
   const [fullName, setFullName] = useState("")
@@ -35,7 +38,7 @@ const TeacherForm = () => {
     const json = await response.json()
 
     if(response.ok){
-      console.log("new user added",json);
+      dispatch({type:"CREATE_LMSUSER", payload:json})
       setFullName("")
       setFirstName("")
       setLastName("")
