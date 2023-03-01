@@ -101,18 +101,18 @@ const updateTeacherUsers = async(req,res)=>{
   const {id} = req.params
 
   try {
-    const teacherUser = await lmsUserTeacherModel.findById({id})
+    const teacherUser = await lmsUserTeacherModel.findById(id)
 
     if(!teacherUser){
       res.status(404).json("There is no such user")
     }
+
 
     //update properties with the req.body 
     teacherUser.email = req.body.email || teacherUser.email
     teacherUser.phoneNumber = req.body.phoneNumber || teacherUser.phoneNumber
     teacherUser.department = req.body.department || teacherUser.department
     teacherUser.subject = req.body.subject || teacherUser.subject
-
 
 
     let imageUrl = null 
@@ -135,15 +135,14 @@ const updateTeacherUsers = async(req,res)=>{
         imageUrl = `https://storage.googleapis.com/${bucket.name}/${fileName}`;
 
         teacherUser.teacherImage = imageUrl
-        const updatedTeacherUser = await lmsUserTeacherModel.save()
+        const updatedTeacherUser = await teacherUser.save()
 
         res.status(200).json(updatedTeacherUser)
       })
       stream.end(req.file.buffer)
-    }else{
-      const updatedTeacherUser = await lmsUserTeacherModel.save()
-
-      res.status(200).json(updatedTeacherUser)
+    }else {
+      const updatedTeacherUser = await teacherUser.save()
+      res.status(200).json(updatedTeacherUser);
     }
   } catch (error) {
     res.status(400).json(error)

@@ -35,7 +35,7 @@ const TeacherForm = () => {
     const json = await response.json()
 
     if(response.ok){
-      // console.log("new user added",json);
+      console.log("new user added",json);
       setFullName("")
       setFirstName("")
       setLastName("")

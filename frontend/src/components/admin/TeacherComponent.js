@@ -15,6 +15,7 @@ const TeacherComponent = ({teacher}) => {
 
   const handleUpdate = async(e) =>{
     e.preventDefault()
+    setIsEditing(false)
 
     const formData = new FormData()
     formData.append('email', draftEmail)
