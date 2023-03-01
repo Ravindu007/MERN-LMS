@@ -15,7 +15,7 @@ const AdminDashboard = () => {
           <Link to="/admin/students">
             <button className='btn btn-outline-success'>Student Management</button>
           </Link>
-          <Link to="/admin/subject">
+          <Link to="/admin/subjects">
             <button className='btn btn-outline-danger'>Subject Management</button>
           </Link>
         </div>
