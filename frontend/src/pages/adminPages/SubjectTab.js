@@ -30,11 +30,11 @@ const SubjectTab = () => {
         <div className="col-8 items">
           {subjects && 
             subjects.map((subject)=>(
-              <div className="item">
+              <div className="item col-4">
                 <SubjectComponent  key={subject._id} subject={subject}/>
               </div>
             ))}
-        </div>
+        </div>  
         <div className="col-4 add-item">
           {<SubjectForm/>}
         </div>
