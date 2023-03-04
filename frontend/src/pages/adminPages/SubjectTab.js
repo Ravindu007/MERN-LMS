@@ -1,10 +1,10 @@
-import "./subjectTab.scss"
-
 import React, { useEffect } from 'react'
 
 import SubjectComponent from "../../components/admin/SubjectComponent"
 import { useSubjectContext } from "../../hooks/useSubject"
 import SubjectForm from "../../components/admin/SubjectForm"
+
+import "./subjectTab.scss"
 
 const SubjectTab = () => {
 
@@ -22,7 +22,7 @@ const SubjectTab = () => {
 
 
     fetchAllSubjects()
-  },[dispatch])
+  })
 
   return (
     <div className="tab">
@@ -30,9 +30,7 @@ const SubjectTab = () => {
         <div className="col-8 items">
           {subjects && 
             subjects.map((subject)=>(
-              <div className="item col-4">
-                <SubjectComponent  key={subject._id} subject={subject}/>
-              </div>
+                <SubjectComponent key={subject._id} subject={subject} />
             ))}
         </div>  
         <div className="col-4 add-item">

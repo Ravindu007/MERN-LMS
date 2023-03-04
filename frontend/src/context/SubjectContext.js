@@ -24,9 +24,13 @@ export const subjectReducer = (state, action) => {
         subjects:updatedSubject
       }
     case 'DELETE_SUBJECT':
-      return{
-        subjects:state.subjects.filer((subject)=>subject._id !== action.payload._id)
-      } 
+      if (action.payload && action.payload._id) {
+        return {
+          subjects: state.subjects.filter((subject) => subject._id !== action.payload._id)
+        }
+      } else {
+        return state;
+      }
     default:
       return state 
   }

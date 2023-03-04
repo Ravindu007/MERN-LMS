@@ -64,7 +64,7 @@ const TeacherComponent = ({teacher}) => {
   return (
     <>
       {!isEditing && (
-        <div className='card teacher-component'>
+        <div className='card teacher-component col-12'>
         <div className="card-body inside">
           <div className="col-7">
             <p><strong>Full Name: </strong>{teacher.fullName}</p>

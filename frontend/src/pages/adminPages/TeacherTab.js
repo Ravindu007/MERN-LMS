@@ -31,7 +31,7 @@ const TeacherTab = () => {
         <div className="col-8 items">
           {lmsUsers && 
             lmsUsers.map((lmsUser)=>(
-                <TeacherComponent  key={lmsUser._id} teacher={lmsUser}/>
+                <TeacherComponent  key={lmsUser._id} teacher={lmsUser} />
             ))}
         </div>
         <div className="col-4 add-item">

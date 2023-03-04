@@ -1,9 +1,10 @@
 const express = require("express")
 const multer = require("multer")
 
-const {createTeacherUser, getAllTeacherUsers, getSingleTeacherUser, updateTeacherUsers, deleteTeacherUsers} = require("../controllers/lmsUserControllers")
+const {createTeacherUser, getAllTeacherUsers, getSingleTeacherUser, updateTeacherUsers, deleteTeacherUsers, getAllStudents,getSingleStudent, createStudentUser, updateStudentUser, deleteStudentUser} = require("../controllers/lmsUserControllers")
 
 const {getAllSubjects, getSingleSubject, createSubject, updateSubject, deleteSubject} = require("../controllers/subjectControllers")
+
 
 const router = express.Router()
 
@@ -15,7 +16,6 @@ const uploadSubject = multer()
 
 
 //admin - USER  Routes
-
 //get all created teacher - users
 router.get("/users/teachers", getAllTeacherUsers)
 
@@ -38,6 +38,17 @@ router.patch("/subjects/:id",uploadSubject.none(), updateSubject)
 
 router.delete("/subjects/:id", deleteSubject)
 
+
+//admin user-students routs 
+router.get("/users/students", getAllStudents)
+
+router.get("/users/students/:id", getSingleStudent)
+
+router.post("/users/students", upload.single('studentImage'), createStudentUser)
+
+router.patch("/users/students/:id",upload.single('studentImage'), updateStudentUser)
+
+router.delete("/users/students/:id",deleteStudentUser)
 
 
 

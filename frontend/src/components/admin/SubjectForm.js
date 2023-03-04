@@ -10,7 +10,7 @@ const SubjectForm = () => {
   const [taughtBy, setTaughtBy] = useState("")
   const [numberOfStudents, setNumberOfStudents] = useState("")
 
-  const handleUpdate = async(e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault()
 
     const formData = new FormData()
@@ -26,12 +26,15 @@ const SubjectForm = () => {
 
     if(response.ok){
       dispatch({type:'CREATE_SUBJECT', payload:json})
+      setSubjectName("")
+      setTaughtBy("")
+      setNumberOfStudents("")
     }
   }
 
   return (
     <div className='subjectForm'>
-      <form onSubmit={handleUpdate}>
+      <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label>Subject Name</label>
           <input 

@@ -15,6 +15,7 @@ module.exports = {admin:admin}
 
 //routes path
 const adminRoutes = require("./routes/adminRoutes")
+const userRoutes = require("./routes/userRoutes")
 
 
 const App = express()
@@ -30,6 +31,8 @@ App.use(express.json())
 
 //admin routes
 App.use('/api/admin',adminRoutes)
+//user Routes (authentication)
+App.use("/api/user",userRoutes )
 
 
 mongoose.set('strictQuery', true)

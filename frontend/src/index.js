@@ -8,11 +8,11 @@ import { SubjectContextProvider } from './context/SubjectContext';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+  <SubjectContextProvider>
     <LmsUserContextProvider>
-    <SubjectContextProvider>
       <App />
-    </SubjectContextProvider>
     </LmsUserContextProvider>
+  </SubjectContextProvider>
   </React.StrictMode>
 );
 

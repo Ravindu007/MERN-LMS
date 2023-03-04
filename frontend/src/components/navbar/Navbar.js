@@ -12,6 +12,9 @@ const Navbar = () => {
         <ul className="navbar-nav">
           {/* admin link */}
           <li className="nav-item"><Link to="/admin" className='nav-link'>ADMIN</Link></li>
+
+          {/* user-teacher */}
+          <li className="nav-item"><Link to="/user/subjects" className='nav-link'>teacher-subject</Link></li>
         </ul>
       </div>
     </nav>

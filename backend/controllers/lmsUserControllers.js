@@ -5,6 +5,7 @@ const bucket = admin.storage().bucket(process.env.STORAGE_BUCKET)
 
 //models
 const lmsUserTeacherModel = require("../models/lmsUserTeacherModel")
+const lmsUserStudentModel = require("../models/lmsUserStudentModel")
 
 //teacher users 
 const getAllTeacherUsers = async(req,res)=>{
@@ -165,4 +166,119 @@ const deleteTeacherUsers = async(req,res)=>{
   }
 }
 
-module.exports = {createTeacherUser, getAllTeacherUsers, getSingleTeacherUser, updateTeacherUsers, deleteTeacherUsers}
+
+//admin student controllers 
+const getAllStudents  = async(req,res) => {
+  try{
+    	const allStudents = await lmsUserStudentModel.find({}).sort({createdAt:-1})
+      res.status(200).json(allStudents)
+  }catch(error){
+    res.status(400).json(error)
+  }
+}
+
+const getSingleStudent = async(req,res) => {
+  const {id} = req.params
+  try{
+    const singleStudent = await lmsUserStudentModel.findById(id)
+    res.status(200).json(singleStudent)
+  }catch(error){
+    res.status(400).json(error)
+  }
+}
+
+const createStudentUser = async(req,res) => {
+  const {fullName,firstName,lastName,registrationNumber,email,department} = req.body
+
+  try {
+    let imageUrl = null
+
+    if(req.file){
+      const fileName = req.file.originalname
+      const file = bucket.file(fileName)
+
+      const stream = file.createWriteStream({
+        metadata:{
+          contentType:req.file.mimetype
+        }
+      })
+
+      stream.on("error",(err)=>{
+        console.log(err);
+      })
+
+      stream.on("finish", async()=>{
+        imageUrl = `https://storage.googleapis.com/${bucket.name}/${fileName}`
+
+        const student = await lmsUserStudentModel.create({fullName,firstName,lastName,registrationNumber,email,department, studentImage:imageUrl})
+
+        res.status(200).json(student)
+      })
+
+      stream.end(req.file.buffer)
+
+    }else{
+      const student = await lmsUserStudentModel.create({fullName,firstName,lastName,registrationNumber,email,department, studentImage:null})
+      res.status(200).json(student)
+    }
+  } catch (error) {
+    res.status(400).json(error)
+  }
+}
+
+const updateStudentUser = async(req,res) => {
+  try {
+    const {id} = req.params
+
+    const student = await lmsUserStudentModel.findById(id)
+
+    student.email = req.body.email || student.email
+
+    let imageUrl = null
+    if(req.file){
+      const fileName = req.file.originalname
+      const file = bucket.file(fileName)
+
+
+      const stream = file.createWriteStream({
+        metadata:{
+          contentType:req.file.mimetype
+        }
+      })
+
+      stream.on("error",(err)=>{
+        console.log(err);
+      })
+
+      stream.on("finish", async()=>{
+        imageUrl = `https://storage.googleapis.com/${bucket.name}/${fileName}`
+
+        student.studentImage = imageUrl
+        const updatedStudent = await student.save()
+
+        res.status(200).json(updatedStudent)
+      })
+      stream.end(req.file.buffer)
+    }else{
+      const updatedStudent = await student.save()
+      res.status(200).json(updatedStudent)
+    }
+
+  } catch (error) {
+    res.status(400).json(error)
+  }
+
+}
+
+const deleteStudentUser = async(req,res) => {
+  const {id} = req.params
+
+  try{
+    const deletedStudent = await lmsUserStudentModel.findByIdAndDelete({_id:id})
+    res.status(200).json(deletedStudent)
+  }catch(error){
+    res.status(400).json(error)
+  }
+}
+
+module.exports = {createTeacherUser, getAllTeacherUsers, getSingleTeacherUser, updateTeacherUsers, deleteTeacherUsers, getAllStudents,getSingleStudent, createStudentUser, updateStudentUser, deleteStudentUser}
