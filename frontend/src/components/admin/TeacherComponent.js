@@ -28,7 +28,7 @@ const TeacherComponent = ({teacher}) => {
     formData.append('teacherImage', draftImage)
 
 
-    const response = await fetch("/api/admin/users/teachers/" + teacher._id,{
+    const response = await fetch("/api/admin/lmsUsers/teachers/" + teacher._id,{
       method:"PATCH",
       body:formData
     })
@@ -49,7 +49,7 @@ const TeacherComponent = ({teacher}) => {
   const handleDelete = async(e) => {
     e.preventDefault()
 
-    const response = await fetch("/api/admin/users/teachers/" + teacher._id,{
+    const response = await fetch("/api/admin/lmsUsers/teachers/" + teacher._id,{
       method: "DELETE"
     })
 

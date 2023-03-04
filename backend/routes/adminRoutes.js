@@ -17,13 +17,13 @@ const uploadSubject = multer()
 
 //admin - USER  Routes
 //get all created teacher - users
-router.get("/users/teachers", getAllTeacherUsers)
+router.get("/lmsUsers/teachers", getAllTeacherUsers)
 
-router.post("/users/teachers", upload.single('teacherImage'), createTeacherUser)
+router.post("/lmsUsers/teachers", upload.single('teacherImage'), createTeacherUser)
 
-router.patch("/users/teachers/:id",upload.single('teacherImage'), updateTeacherUsers)
+router.patch("/lmsUsers/teachers/:id",upload.single('teacherImage'), updateTeacherUsers)
 
-router.delete("/users/teachers/:id",deleteTeacherUsers)
+router.delete("/lmsUsers/teachers/:id",deleteTeacherUsers)
 
 
 
@@ -40,15 +40,15 @@ router.delete("/subjects/:id", deleteSubject)
 
 
 //admin user-students routs 
-router.get("/users/students", getAllStudents)
+router.get("/lmsUsers/students", getAllStudents)
 
-router.get("/users/students/:id", getSingleStudent)
+router.get("/lmsUsers/students/:id", getSingleStudent)
 
-router.post("/users/students", upload.single('studentImage'), createStudentUser)
+router.post("/lmsUsers/students", upload.single('studentImage'), createStudentUser)
 
-router.patch("/users/students/:id",upload.single('studentImage'), updateStudentUser)
+router.patch("/lmsUsers/students/:id",upload.single('studentImage'), updateStudentUser)
 
-router.delete("/users/students/:id",deleteStudentUser)
+router.delete("/lmsUsers/students/:id",deleteStudentUser)
 
 
 

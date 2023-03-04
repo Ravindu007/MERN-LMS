@@ -56,7 +56,7 @@ const TeacherForm = () => {
     formData1.append('subject',subject)
     formData1.append('teacherImage', image)
 
-    const response1 = await fetch("/api/admin/users/teachers",{
+    const response1 = await fetch("/api/admin/lmsUsers/teachers",{
       method:"POST",
       body:formData1
     })

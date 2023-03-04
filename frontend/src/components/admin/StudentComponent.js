@@ -23,7 +23,7 @@ const StudentComponent = ({student}) => {
     formData.append('email', draftEmail)
     formData.append('studentImage', draftImage)
 
-    const response = await fetch("/api/admin/users/students/" + student._id,{
+    const response = await fetch("/api/admin/lmsUsers/students/" + student._id,{
       method:"PATCH",
       body:formData
     })
@@ -39,7 +39,7 @@ const StudentComponent = ({student}) => {
   const handleDelete = async(e) => {
     e.preventDefault()
 
-    const response = await fetch("/api/admin/users/students/" + student._id,{
+    const response = await fetch("/api/admin/lmsUsers/students/" + student._id,{
       method:"DELETE"
     })
 

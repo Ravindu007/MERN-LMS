@@ -13,7 +13,7 @@ const TeacherTab = () => {
 
   useEffect(()=>{
     const fetchALLTeachers = async() =>{
-      const response = await fetch("/api/admin/users/teachers")
+      const response = await fetch("/api/admin/lmsUsers/teachers")
       const json = await response.json()
 
       if(response.ok){

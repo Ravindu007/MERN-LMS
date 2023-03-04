@@ -26,7 +26,7 @@ const StudentForm = () => {
     formData.append('department', department)
     formData.append('studentImage', studentImage)
 
-    const response = await fetch("/api/admin/users/students",{
+    const response = await fetch("/api/admin/lmsUsers/students",{
       method:"POST",
       body:formData
     })

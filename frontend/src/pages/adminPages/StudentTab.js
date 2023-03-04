@@ -9,7 +9,7 @@ const StudentTab = () => {
 
   useEffect(()=>{
     const fetchAllStudents = async() => {
-      const response = await fetch("/api/admin/users/students")
+      const response = await fetch("/api/admin/lmsUsers/students")
       const json = await response.json()
 
       if(response.ok){
