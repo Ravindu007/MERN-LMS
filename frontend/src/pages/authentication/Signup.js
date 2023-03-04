@@ -1,17 +1,27 @@
 import React, { useState } from 'react'
+import { useSignup } from '../../hooks/useSignup'
 
 import "./auth.scss"
 
 const Signup = () => {
 
+  const {signup, error, isLoading} = useSignup()
+
   //input fiels
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
+  const handleSubmit = async(e) => {
+    e.preventDefault()
+
+    //signup function of the signup hook
+    await signup(email,password)
+  }
+
   return (
     <div className="page">
       <div className="box">
-        <form className='form'>
+        <form className='form' onSubmit={handleSubmit}>
           <div className="form-group">
             <label>Email</label>
             <input 
@@ -30,8 +40,11 @@ const Signup = () => {
               value={password}
             />
           </div>
-          <button className='btn btn-warning'>SIGNUP</button>
+          <button disabled={isLoading} className='btn btn-warning'>SIGNUP</button>
         </form>
+        {error && (
+          <small>{error}</small>
+        )}
       </div>
     </div>
   )
