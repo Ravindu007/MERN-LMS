@@ -6,6 +6,8 @@ import AdminDashboard from "./pages/adminPages/AdminDashboard";
 import StudentTab from "./pages/adminPages/StudentTab";
 import SubjectTab from "./pages/adminPages/SubjectTab";
 import TeacherTab from "./pages/adminPages/TeacherTab";
+import Login from "./pages/authentication/Login";
+import Signup from "./pages/authentication/Signup";
 import SubjectView from "./pages/user/teacher/SubjectView";
 
 
@@ -21,6 +23,12 @@ function App() {
         <Route path="/admin/teachers" element={<TeacherTab/>} />
         <Route path="/admin/students" element={<StudentTab/>} />
         <Route path="/admin/subjects" element={<SubjectTab/>} />
+
+
+        {/* Authentication user routes */}
+        <Route path="/login" element={<Login/>}/>
+        <Route path="/signup" element={<Signup/>}/>
+
 
         {/* techer routes */}
         <Route path="/user/subjects" element={<SubjectView/>}/>

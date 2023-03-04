@@ -15,6 +15,15 @@ const Navbar = () => {
 
           {/* user-teacher */}
           <li className="nav-item"><Link to="/user/subjects" className='nav-link'>teacher-subject</Link></li>
+
+
+          <div className="auth" style={{display:"flex", marginLeft:"850px"}}>
+            {/* authentication links */}
+            <li className="nav-item"><Link to="/login" className='nav-link'>login</Link></li>
+            <li className="nav-item"><Link to="/signup" className='nav-link'>Signup</Link></li>
+            <li className="nav-item"><Link to="/logout" className='nav-link'>logout</Link></li>
+          </div>
+
         </ul>
       </div>
     </nav>

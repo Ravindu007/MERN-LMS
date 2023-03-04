@@ -1,0 +1,19 @@
+.page{
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center; /* Center items vertically */
+
+
+  .box{
+    width: 25%;
+    border: 0.5px solid black;
+    border-radius: 2em;
+    padding: 20px;
+
+    .form{
+      display: flex;
+      flex-direction: column;
+    }
+  }
+}
