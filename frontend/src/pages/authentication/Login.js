@@ -1,17 +1,25 @@
 import React, { useState } from 'react'
+import { useLogin } from '../../hooks/useLogin'
 
 import "./auth.scss"
 
 const Signup = () => {
 
+  const {login, error, isLoading} = useLogin()
+
   //input fiels
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
+  const handleSubmit = async(e) => {
+    e.preventDefault()
+    await login(email,password) 
+  }
+
   return (
     <div className="page">
       <div className="box">
-        <form className='form'>
+        <form className='form' onSubmit={handleSubmit}>
           <div className="form-group">
             <label>Email</label>
             <input 
@@ -30,7 +38,10 @@ const Signup = () => {
               value={password}
             />
           </div>
-          <button className='btn btn-primary'>LOGIN</button>
+          <button disabled={isLoading} className='btn btn-primary'>LOGIN</button>
+          {error && (
+          <small>{error}</small>
+          )}
         </form>
       </div>
     </div>

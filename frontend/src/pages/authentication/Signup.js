@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useSignup } from '../../hooks/useSignup'
+import {useSignup} from "../../hooks/useSignup"
 
 import "./auth.scss"
 
@@ -41,10 +41,10 @@ const Signup = () => {
             />
           </div>
           <button disabled={isLoading} className='btn btn-warning'>SIGNUP</button>
-        </form>
-        {error && (
+          {error && (
           <small>{error}</small>
-        )}
+          )}
+        </form>
       </div>
     </div>
   )

@@ -3,6 +3,7 @@ require("dotenv").config()
 const express = require("express")
 const mongoose = require("mongoose")
 
+
 const admin = require("firebase-admin")
 const serviceAccount = require("./serviceAccount.json")
 
@@ -26,16 +27,15 @@ App.use(express.json())
 
 
 
-
 //Routes
 
 //admin routes
 App.use('/api/admin',adminRoutes)
 //user Routes (authentication)
-App.use("/api/user",userRoutes )
+App.use('/api/user',userRoutes)
 
 
-mongoose.set('strictQuery', true)
+mongoose.set('strictQuery', false)
 //database connection 
 mongoose.connect(process.env.CONNECTTION_URI)
   .then(()=>{

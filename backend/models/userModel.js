@@ -7,17 +7,11 @@ const Schema = mongoose.Schema
 const userSchema = new Schema({
   email:{type:String, required:true, unique:true},
   password:{type:String, required:true}
-},{timestamps:true})
+})
 
 
 //static signup method
 userSchema.statics.signup = async function(email,password) {
-  //echeck whether the email is exists 
-  const exists = await this.findOne({email})
-
-  if(exists){
-    throw Error("This Email already in use")
-  }
 
   // validations
   if(!email || !password){
@@ -30,6 +24,13 @@ userSchema.statics.signup = async function(email,password) {
 
   if(!validator.isStrongPassword(password)){
     throw Error("Password is not strong enough")
+  }
+
+  //echeck whether the email is exists 
+  const exists = await this.findOne({email})
+
+  if(exists){
+    throw Error("This Email already in use")
   }
 
   //hashing the password
