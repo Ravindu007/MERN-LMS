@@ -9,7 +9,6 @@ const SubjectForm = () => {
 
   //form input fiels
   const [subjectName, setSubjectName] = useState("")
-  const [taughtBy, setTaughtBy] = useState("")
   const [numberOfStudents, setNumberOfStudents] = useState("")
 
   const handleSubmit = async(e) => {
@@ -21,7 +20,6 @@ const SubjectForm = () => {
 
     const formData = new FormData()
     formData.append('subjectName',subjectName)
-    formData.append('taughtBy',taughtBy)
     formData.append('numberOfStudents',numberOfStudents)
 
     const response = await fetch("/api/admin/subjects",{
@@ -36,7 +34,6 @@ const SubjectForm = () => {
     if(response.ok){
       dispatch({type:'CREATE_SUBJECT', payload:json})
       setSubjectName("")
-      setTaughtBy("")
       setNumberOfStudents("")
     }
   }
@@ -51,15 +48,6 @@ const SubjectForm = () => {
             className='form-control'
             onChange={e=>{setSubjectName(e.target.value)}}
             value={subjectName}
-          />
-        </div>
-        <div className="form-group">
-          <label>Taught By</label>
-          <input 
-            type="text"
-            className='form-control'
-            onChange={e=>{setTaughtBy(e.target.value)}}
-            value={taughtBy}
           />
         </div>
         <div className="form-group">

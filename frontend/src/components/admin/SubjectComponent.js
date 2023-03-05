@@ -14,6 +14,7 @@ const SubjectComponent = ({subject}) => {
   const [draftSubjectName, setDraftSubjectName] = useState("")
   const [draftTaughtBy, setDraftTaughtBy] = useState("")
   const [draftNumberOfStudents, setDraftNumberOfStudents] = useState("")
+  const [draftTaughtByEmail, setDraftTaughtByEmail] = useState("")
 
 
   const handleUpdate =  async(e) => {
@@ -27,6 +28,8 @@ const SubjectComponent = ({subject}) => {
     formData.append('subjectName', draftSubjectName) 
     formData.append('taughtBy', draftTaughtBy)
     formData.append('numberOfStudents', draftNumberOfStudents)
+    formData.append('taughtByEmail', draftTaughtByEmail)
+
 
     const response = await fetch("/api/admin/subjects/" + subject._id, {
       method:"PATCH",
@@ -71,6 +74,7 @@ const SubjectComponent = ({subject}) => {
         <div className="card-body">
             <p><strong>Subject Name: </strong>{subject.subjectName}</p>
             <p><strong>Taught by: </strong>{subject.taughtBy}</p>
+            <p><strong>Taught by Email: </strong>{subject.taughtByEmail}</p>
             <p><strong>Number of Students: </strong>{subject.numberOfStudents}</p>
         </div>
         <div className="card-footer">
@@ -80,6 +84,7 @@ const SubjectComponent = ({subject}) => {
                 setIsEditing(true)
                 setDraftSubjectName(subject.subjectName)
                 setDraftTaughtBy(subject.taughtBy)
+                setDraftTaughtByEmail(subject.taughtByEmail)
                 setDraftNumberOfStudents(subject.numberOfStudents)
               }}
             >
@@ -112,6 +117,15 @@ const SubjectComponent = ({subject}) => {
                 type="text" 
                 onChange={e=>setDraftTaughtBy(e.target.value)}
                 value={draftTaughtBy}
+                className='form-control'
+              />
+            </div>
+            <div className="form-group">
+              <label>Taught By Email</label>
+              <input 
+                type="text" 
+                onChange={e=>setDraftTaughtByEmail(e.target.value)}
+                value={draftTaughtByEmail}
                 className='form-control'
               />
             </div>

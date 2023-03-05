@@ -91,6 +91,7 @@ const TeacherForm = () => {
     //also want to update the subject
     const formData2 = new FormData()
     formData2.append('taughtBy', fullName)
+    formData2.append('taughtByEmail', email)
     
     const response2 = await fetch("/api/admin/subjects/" + subjectId,{
       method:"PATCH",
