@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { useLmsUserContext } from '../../hooks/useLmsUser'
 import {useSubjectContext} from "../../hooks/useSubject"
+import {useAuthContext} from "../../hooks/useAuthContext"
+
 
 const TeacherForm = () => {
 
+  const {user} = useAuthContext()
   const {dispatch} = useLmsUserContext()
   const {dispatch:dispatchSubject} = useSubjectContext()
 
@@ -13,7 +16,11 @@ const TeacherForm = () => {
 
   useEffect(()=>{
     const fetchAllSubjects = async() => {
-      const response = await fetch("/api/admin/subjects")
+      const response = await fetch("/api/admin/subjects",{
+        headers:{
+          'Authorization':`${user.email} ${user.token}`
+        }
+      })
       const json = await response.json()
 
       if(response.ok){
@@ -22,8 +29,10 @@ const TeacherForm = () => {
     }
 
 
-    fetchAllSubjects()
-  },[])
+    if(user){
+      fetchAllSubjects()
+    }
+  },[setSubjectList, user])
 
 
   //input fields
@@ -58,7 +67,10 @@ const TeacherForm = () => {
 
     const response1 = await fetch("/api/admin/lmsUsers/teachers",{
       method:"POST",
-      body:formData1
+      body:formData1,
+      headers:{
+        'Authorization':`${user.email} ${user.token}`
+      }
     })
 
     const json1 = await response1.json()
@@ -82,7 +94,10 @@ const TeacherForm = () => {
     
     const response2 = await fetch("/api/admin/subjects/" + subjectId,{
       method:"PATCH",
-      body:formData2
+      body:formData2,
+      headers:{
+        'Authorization':`${user.email} ${user.token}`
+      }
     })
 
     const json2 = await response2.json()

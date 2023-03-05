@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 import { useLmsUserContext } from '../../hooks/useLmsUser'
+import {useAuthContext} from "../../hooks/useAuthContext"
 
 import "./TeacherComponent.scss"
 
 const TeacherComponent = ({teacher}) => {
 
+  const {user} = useAuthContext()
   const {dispatch} = useLmsUserContext()
 
   const [isEditing, setIsEditing] = useState(false)
@@ -20,6 +22,10 @@ const TeacherComponent = ({teacher}) => {
     e.preventDefault()
     setIsEditing(false)
 
+    if(!user){
+      throw Error("You have to logged in first")
+    }
+
     const formData = new FormData()
     formData.append('email', draftEmail)
     formData.append('phoneNumber', draftPhoneNumber)
@@ -30,7 +36,10 @@ const TeacherComponent = ({teacher}) => {
 
     const response = await fetch("/api/admin/lmsUsers/teachers/" + teacher._id,{
       method:"PATCH",
-      body:formData
+      body:formData,
+      headers:{
+        'Authorization':`${user.email} ${user.token}`
+      }
     })
 
     const json = await response.json()
@@ -49,8 +58,15 @@ const TeacherComponent = ({teacher}) => {
   const handleDelete = async(e) => {
     e.preventDefault()
 
+    if(!user){
+      throw Error("You have to logged in first")
+    }
+
     const response = await fetch("/api/admin/lmsUsers/teachers/" + teacher._id,{
-      method: "DELETE"
+      method: "DELETE",
+      headers:{
+        'Authorization':`${user.email} ${user.token}`
+      }
     })
 
     const json = await response.json()

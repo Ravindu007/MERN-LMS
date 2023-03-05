@@ -5,15 +5,20 @@ import TeacherComponent from '../../components/admin/TeacherComponent'
 import TeacherForm from "../../components/admin/TeacherForm"
 
 import {useLmsUserContext} from "../../hooks/useLmsUser"
+import {useAuthContext} from "../../hooks/useAuthContext"
 
 const TeacherTab = () => {
-
+  const {user} = useAuthContext()
   const {lmsUsers, dispatch} = useLmsUserContext()
 
 
   useEffect(()=>{
     const fetchALLTeachers = async() =>{
-      const response = await fetch("/api/admin/lmsUsers/teachers")
+      const response = await fetch("/api/admin/lmsUsers/teachers",{
+        headers:{
+          'Authorization':`${user.email} ${user.token}`
+        }
+      })
       const json = await response.json()
 
       if(response.ok){
@@ -21,8 +26,10 @@ const TeacherTab = () => {
       }
     }
 
-    fetchALLTeachers()
-  })
+    if(user){
+      fetchALLTeachers()
+    }
+  },[dispatch, user])
 
 
   return (

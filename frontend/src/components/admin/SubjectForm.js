@@ -1,8 +1,10 @@
 import React, {useState} from 'react'
 import { useSubjectContext } from '../../hooks/useSubject'
+import {useAuthContext} from "../../hooks/useAuthContext"
 
 const SubjectForm = () => {
 
+  const {user} = useAuthContext()
   const {dispatch} = useSubjectContext()
 
   //form input fiels
@@ -13,6 +15,10 @@ const SubjectForm = () => {
   const handleSubmit = async(e) => {
     e.preventDefault()
 
+    if(!user){
+      throw Error("You have to logged in")
+    }
+
     const formData = new FormData()
     formData.append('subjectName',subjectName)
     formData.append('taughtBy',taughtBy)
@@ -20,7 +26,10 @@ const SubjectForm = () => {
 
     const response = await fetch("/api/admin/subjects",{
       method:'POST',
-      body:formData
+      body:formData,
+      headers:{
+        'Authorization':`${user.email} ${user.token}`
+      }
     })
     const json = await response.json()
 

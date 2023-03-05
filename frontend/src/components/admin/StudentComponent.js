@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import { useLmsUserContext } from '../../hooks/useLmsUser'
+import {useAuthContext} from "../../hooks/useAuthContext"
 
 
 import "./StudentComponent.scss"
 
 const StudentComponent = ({student}) => {
-
+  const {user} = useAuthContext()
   const {dispatch} = useLmsUserContext()
 
 
@@ -19,13 +20,20 @@ const StudentComponent = ({student}) => {
   const handleUpdate = async(e) => {
     e.preventDefault()
 
+    if(!user){
+      throw Error("You have to logged in first")
+    }
+
     const formData = new FormData()
     formData.append('email', draftEmail)
     formData.append('studentImage', draftImage)
 
     const response = await fetch("/api/admin/lmsUsers/students/" + student._id,{
       method:"PATCH",
-      body:formData
+      body:formData,
+      headers:{
+        'Authorization':`${user.email} ${user.token}`
+      }
     })
 
     const json = await response.json()
@@ -39,8 +47,15 @@ const StudentComponent = ({student}) => {
   const handleDelete = async(e) => {
     e.preventDefault()
 
+    if(!user){
+      throw Error("You have to logged in first")
+    }
+
     const response = await fetch("/api/admin/lmsUsers/students/" + student._id,{
-      method:"DELETE"
+      method:"DELETE",
+      headers:{
+        'Authorization':`${user.email} ${user.token}`
+      }
     })
 
     const json = await response.json()

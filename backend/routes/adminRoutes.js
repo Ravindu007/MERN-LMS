@@ -5,14 +5,21 @@ const {createTeacherUser, getAllTeacherUsers, getSingleTeacherUser, updateTeache
 
 const {getAllSubjects, getSingleSubject, createSubject, updateSubject, deleteSubject} = require("../controllers/subjectControllers")
 
+// middleware
+const requireAuth = require("../middleware/requireAuth")
+
 
 const router = express.Router()
+
 
 const upload = multer({
   storage:multer.memoryStorage()
 })
 
 const uploadSubject = multer()
+
+
+router.use(requireAuth)
 
 
 //admin - USER  Routes

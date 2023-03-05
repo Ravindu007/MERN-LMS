@@ -2,17 +2,23 @@ import React, { useEffect } from 'react'
 
 import SubjectComponent from "../../components/admin/SubjectComponent"
 import { useSubjectContext } from "../../hooks/useSubject"
+import {useAuthContext} from "../../hooks/useAuthContext"
 import SubjectForm from "../../components/admin/SubjectForm"
 
 import "./subjectTab.scss"
 
 const SubjectTab = () => {
+  const {user} = useAuthContext()
 
   const {subjects, dispatch} = useSubjectContext()
 
   useEffect(()=>{
     const fetchAllSubjects = async() => {
-      const response = await fetch("/api/admin/subjects")
+      const response = await fetch("/api/admin/subjects",{
+        headers:{
+          'Authorization':`${user.email} ${user.token}`
+        }
+      })
       const json = await response.json()
 
       if(response.ok){
@@ -20,9 +26,10 @@ const SubjectTab = () => {
       }
     }
 
-
-    fetchAllSubjects()
-  })
+    if(user){
+      fetchAllSubjects()
+    }
+  },[dispatch, user])
 
   return (
     <div className="tab">

@@ -2,14 +2,21 @@ import React, { useEffect } from 'react'
 import StudentComponent from '../../components/admin/StudentComponent'
 import StudentForm from '../../components/admin/StudentForm'
 import { useLmsUserContext } from '../../hooks/useLmsUser'
+import {useAuthContext} from "../../hooks/useAuthContext"
 
 const StudentTab = () => {
 
+  const {user} = useAuthContext()
+  
   const {lmsUsers:students, dispatch} = useLmsUserContext()
 
   useEffect(()=>{
     const fetchAllStudents = async() => {
-      const response = await fetch("/api/admin/lmsUsers/students")
+      const response = await fetch("/api/admin/lmsUsers/students",{
+        headers:{
+          'Authorization':`${user.email} ${user.token}`
+        }
+      })
       const json = await response.json()
 
       if(response.ok){
@@ -18,8 +25,10 @@ const StudentTab = () => {
     }
 
 
-    fetchAllStudents()
-  },[dispatch])
+    if(user){
+      fetchAllStudents()
+    }
+  },[dispatch, user])
 
   return (
    <div className='row'>

@@ -154,7 +154,8 @@ const deleteTeacherUsers = async(req,res)=>{
   const {id} = req.params
 
   try {
-    const deletedTeacherUser = await lmsUserTeacherModel.findByIdAndDelete(id)
+
+    const deletedTeacherUser = await lmsUserTeacherModel.findByIdAndDelete({_id:id})
 
     if(!deletedTeacherUser){
       res.status(404).json("There is no such doc")

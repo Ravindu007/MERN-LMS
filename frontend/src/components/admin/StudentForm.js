@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import { useLmsUserContext } from '../../hooks/useLmsUser'
+import {useAuthContext} from "../../hooks/useAuthContext"
 
 const StudentForm = () => {
-
+  const {user} = useAuthContext()
   const {dispatch} = useLmsUserContext()
 
   //input fields
@@ -17,6 +18,10 @@ const StudentForm = () => {
   const handleSubmit = async(e) => {
     e.preventDefault()
 
+    if(!user){
+      throw Error("You should logged in first")
+    }
+
     const formData = new FormData()
     formData.append('fullName', fullName)
     formData.append('registrationNumber', registrationNumber)
@@ -28,7 +33,10 @@ const StudentForm = () => {
 
     const response = await fetch("/api/admin/lmsUsers/students",{
       method:"POST",
-      body:formData
+      body:formData,
+      headers:{
+        'Authorization':`${user.email} ${user.token}`
+      }
     })
 
     const json = await response.json()

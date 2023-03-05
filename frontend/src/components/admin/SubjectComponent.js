@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import {useSubjectContext} from "../../hooks/useSubject"
+import {useAuthContext} from "../../hooks/useAuthContext"
 
 const SubjectComponent = ({subject}) => {
 
+  const {user} = useAuthContext()
   const {dispatch} = useSubjectContext()
 
   const[isEditing, setIsEditing] = useState(false)
@@ -17,6 +19,10 @@ const SubjectComponent = ({subject}) => {
   const handleUpdate =  async(e) => {
     e.preventDefault()
 
+    if(!user){
+      throw Error("You have to logged in first")
+    }
+
     const formData = new FormData()
     formData.append('subjectName', draftSubjectName) 
     formData.append('taughtBy', draftTaughtBy)
@@ -24,7 +30,10 @@ const SubjectComponent = ({subject}) => {
 
     const response = await fetch("/api/admin/subjects/" + subject._id, {
       method:"PATCH",
-      body:formData
+      body:formData,
+      headers:{
+        'Authorization':`${user.email} ${user.token}`
+      }
     })
 
     const json = await response.json()
@@ -37,14 +46,21 @@ const SubjectComponent = ({subject}) => {
   const handleDelete = async(e) => {
     e.preventDefault()
 
+    if(!user){
+      throw Error("You have to logged in first")
+    }
+
     const response = await fetch("/api/admin/subjects/" + subject._id,{
-      method:"DELETE"
+      method:"DELETE",
+      headers:{
+        'Authorization':`${user.email} ${user.token}`
+      }
     })
 
     const json = await response.json()
 
     if(response.ok){
-      dispatch({type:'DELETE_SUBJECT', payoad:json})
+      dispatch({type:'DELETE_SUBJECT', payload:json})
     }
   }
 
