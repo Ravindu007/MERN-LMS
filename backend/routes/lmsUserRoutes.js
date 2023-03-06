@@ -1,7 +1,7 @@
 const express = require("express")
 const multer = require("multer")
 
-const {getSingleSubjectByEmail, getSingleSubject, getAllRelatedLessons,createLesson, updateLesson,deleteLesson} = require("../controllers/lmsUserControls")
+const {getSingleSubjectByEmail, getSingleSubject, getAllRelatedLessons,createLesson, updateLesson,deleteLesson, getStudentDetails} = require("../controllers/lmsUserControls")
 
 // middleware
 const requireAuth = require("../middleware/requireAuth")
@@ -25,6 +25,13 @@ router.use(requireAuth)
 router.get("/teacher/getRealtedSubjects",  getSingleSubjectByEmail)
 
 router.get("/teacher/getRealtedSubjects/:id", getSingleSubject)
+
+
+//user routes
+// user student routes 
+
+// getting academic year and department using the email
+router.get("/students/getDetails", getStudentDetails)
 
 
 

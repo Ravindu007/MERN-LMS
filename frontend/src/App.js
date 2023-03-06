@@ -14,6 +14,7 @@ import TeacherTab from "./pages/adminPages/TeacherTab";
 import Login from "./pages/authentication/Login";
 import Signup from "./pages/authentication/Signup";
 import SubjectView from "./pages/user/teacher/SubjectView";
+import StudentSubjectView from "./pages/user/student/StudentSubjectView";
 
 
 function App() {
@@ -48,6 +49,10 @@ function App() {
         {/* teacher users */}
         <Route path="/lmsUser/teacher/subjectView" element={user ? <SubjectView/>:<Navigate to="/login"/>}/>
         <Route path="/lmsUser/teacher/subjectView/view/:id" element={user ? <SeperateSubjectView/> : <Navigate to="/login"/>}/>
+
+        {/* student user */}
+        <Route path="/lmsUser/student/subjectView" element={user ? <StudentSubjectView/> : <Navigate to="/login"/>}/>
+
   
       </Routes>
     </BrowserRouter>      

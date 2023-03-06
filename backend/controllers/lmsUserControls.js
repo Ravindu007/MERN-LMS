@@ -3,6 +3,7 @@ const bucket = admin.storage().bucket(process.env.STORAGE_BUCKET)
 
 const subjectModel = require("../models/subjectModel")
 const lessonsModel = require("../models/lessonsModel")
+const lmsUserStudentModel = require("../models/lmsUserStudentModel")
 
 
 // get a  related subject using the user id
@@ -29,6 +30,22 @@ const getSingleSubject = async(req,res) => {
   }
   
 }
+
+
+
+// studnet controllers
+const getStudentDetails = async(req,res) => {
+  try{
+    const userEmail = req.query.email
+    const relatedUser = await lmsUserStudentModel.find({email:userEmail})
+    res.status(200).json(relatedUser)
+  }catch(error){
+    res.status(400).json(error)
+  }
+}
+
+
+
 
 //get all related lessons
 const getAllRelatedLessons = async(req, res) => {
@@ -122,4 +139,4 @@ const deleteLesson = async(req,res) => {
 }
 
 
-module.exports = {getSingleSubjectByEmail, getSingleSubject,getAllRelatedLessons,createLesson, updateLesson,deleteLesson}
+module.exports = {getSingleSubjectByEmail, getSingleSubject,getAllRelatedLessons,createLesson, updateLesson,deleteLesson,getStudentDetails}

@@ -21,7 +21,7 @@ const Navbar = ({isAdmin}) => {
       <div className="collapse navbar-collapse" id='menu'>
         <ul className="navbar-nav">
           
-          <div className="auth" style={{display:"flex", marginLeft:"850px"}}>
+          <div className="auth" style={{display:"flex"}}>
             {/* authentication links */}
             {!user && (
               <>
@@ -37,7 +37,10 @@ const Navbar = ({isAdmin}) => {
               {/* user links */}
               <li className="nav-item"><Link to="/lmsUser/teacher/subjectView" className='nav-link'>teacher-subjects</Link></li>
 
+              <li className="nav-item"><Link to="/lmsUser/student/subjectView" className='nav-link'>student-subjects</Link></li>
+
               <span className='nav-link'>{user.email}</span>
+
               <li className="nav-item"><Link onClick={handleLogout} className='nav-link'>Logout</Link></li>
               </>
             )}
