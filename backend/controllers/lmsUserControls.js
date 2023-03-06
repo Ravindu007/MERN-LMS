@@ -44,6 +44,19 @@ const getStudentDetails = async(req,res) => {
   }
 }
 
+//get subjects related to year and department
+const getRelatedSubjects = async(req,res) => {
+  const {department, academicYear} = req.query
+
+  try{
+    const relatedSubjects = await subjectModel.find({ department: department, academicYear: academicYear})
+    res.status(200).json(relatedSubjects)
+  }catch(error){
+    res.status(400).json(error)
+  }
+}
+
+
 
 
 
@@ -139,4 +152,4 @@ const deleteLesson = async(req,res) => {
 }
 
 
-module.exports = {getSingleSubjectByEmail, getSingleSubject,getAllRelatedLessons,createLesson, updateLesson,deleteLesson,getStudentDetails}
+module.exports = {getSingleSubjectByEmail, getSingleSubject,getAllRelatedLessons,createLesson, updateLesson,deleteLesson,getStudentDetails,getRelatedSubjects}

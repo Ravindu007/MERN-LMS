@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-const Subject = ({subject}) => {
+const TeacherSubject = ({subject}) => {
   return (
     <div className="subject">
       <div className='card'>
@@ -26,4 +26,4 @@ const Subject = ({subject}) => {
   )
 }
 
-export default Subject
+export default TeacherSubject

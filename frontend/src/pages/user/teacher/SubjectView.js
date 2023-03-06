@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import Subject from '../../../components/users/teachers/Subject'
+import TeacherSubject from '../../../components/users/teachers/TeacherSubject'
 import {useAuthContext} from "../../../hooks/useAuthContext"
 import {useSubjectContext} from "../../../hooks/useSubject"
 
@@ -39,7 +39,7 @@ const SubjectView = () => {
           {isLoading ? <p>LOADING</p> : (
             subjects && subjects.map((subject)=>(
               <div key={subject._id} className="col-6">
-                <Subject subject={subject}/>
+                <TeacherSubject subject={subject}/>
               </div>
             ))
           )}

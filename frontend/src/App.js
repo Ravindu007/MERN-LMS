@@ -15,6 +15,7 @@ import Login from "./pages/authentication/Login";
 import Signup from "./pages/authentication/Signup";
 import SubjectView from "./pages/user/teacher/SubjectView";
 import StudentSubjectView from "./pages/user/student/StudentSubjectView";
+import SeperateSubjectStudentView from "./components/users/students/SeperateSubjectStudentView";
 
 
 function App() {
@@ -51,8 +52,8 @@ function App() {
         <Route path="/lmsUser/teacher/subjectView/view/:id" element={user ? <SeperateSubjectView/> : <Navigate to="/login"/>}/>
 
         {/* student user */}
-        <Route path="/lmsUser/student/subjectView" element={user ? <StudentSubjectView/> : <Navigate to="/login"/>}/>
-
+        <Route path="/lmsUser/student/subjectView" element={user ? <StudentSubjectView/> : <Navigate to="/"/>}/>
+        <Route path="/lmsUser/student/subjectView/view/:id" element={user ? <SeperateSubjectStudentView/> : <Navigate to="/"/>}/>
   
       </Routes>
     </BrowserRouter>      
