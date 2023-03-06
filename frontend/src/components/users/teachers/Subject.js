@@ -12,6 +12,8 @@ const Subject = ({subject}) => {
               <p><strong>Taught by: </strong>{subject.taughtBy}</p>
               <p><strong>Taught by Email: </strong>{subject.taughtByEmail}</p>
               <p><strong>Number of Students: </strong>{subject.numberOfStudents}</p>
+              <p><strong>Academic Year: </strong>{subject.academicYear}</p>
+              <p><strong>Department: </strong>{subject.department}</p>
             </div>
             <div className="col-3">
               <Link to={`/lmsUser/teacher/subjectView/view/${subject._id}`}>

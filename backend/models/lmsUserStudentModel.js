@@ -9,6 +9,7 @@ const lmsUserStudentSchema = new Schema({
   registrationNumber:{type:String, required:true},
   email:{type:String, required:true},
   department:{type:String, required:true},
+  academicYear:{type:String, required:true},
   studentImage:{type:String}
 },{timestamps:true})
 

@@ -35,7 +35,7 @@ const Navbar = ({isAdmin}) => {
               {isAdmin && <li className="nav-item"><Link to="/admin" className='nav-link'>ADMIN</Link></li>}
 
               {/* user links */}
-              <li className="nav-item"><Link to="/lmsUser/teacher/subjectView" className='nav-link'>subjects</Link></li>
+              <li className="nav-item"><Link to="/lmsUser/teacher/subjectView" className='nav-link'>teacher-subjects</Link></li>
 
               <span className='nav-link'>{user.email}</span>
               <li className="nav-item"><Link onClick={handleLogout} className='nav-link'>Logout</Link></li>

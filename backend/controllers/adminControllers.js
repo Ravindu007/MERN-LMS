@@ -189,7 +189,7 @@ const getSingleStudent = async(req,res) => {
 }
 
 const createStudentUser = async(req,res) => {
-  const {fullName,firstName,lastName,registrationNumber,email,department} = req.body
+  const {fullName,firstName,lastName,registrationNumber,email,department,academicYear} = req.body
 
   try {
     let imageUrl = null
@@ -211,7 +211,7 @@ const createStudentUser = async(req,res) => {
       stream.on("finish", async()=>{
         imageUrl = `https://storage.googleapis.com/${bucket.name}/${fileName}`
 
-        const student = await lmsUserStudentModel.create({fullName,firstName,lastName,registrationNumber,email,department, studentImage:imageUrl})
+        const student = await lmsUserStudentModel.create({fullName,firstName,lastName,registrationNumber,email,department,academicYear, studentImage:imageUrl})
 
         res.status(200).json(student)
       })
@@ -219,7 +219,7 @@ const createStudentUser = async(req,res) => {
       stream.end(req.file.buffer)
 
     }else{
-      const student = await lmsUserStudentModel.create({fullName,firstName,lastName,registrationNumber,email,department, studentImage:null})
+      const student = await lmsUserStudentModel.create({fullName,firstName,lastName,registrationNumber,email,department,academicYear, studentImage:null})
       res.status(200).json(student)
     }
   } catch (error) {
@@ -234,6 +234,7 @@ const updateStudentUser = async(req,res) => {
     const student = await lmsUserStudentModel.findById(id)
 
     student.email = req.body.email || student.email
+    student.academicYear = req.body.academicYear || student.academicYear
 
     let imageUrl = null
     if(req.file){

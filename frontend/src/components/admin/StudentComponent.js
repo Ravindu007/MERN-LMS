@@ -14,6 +14,7 @@ const StudentComponent = ({student}) => {
 
   //inputfiels
   const [draftEmail, setDraftEmail] = useState("")
+  const [draftAcademicYear, setDraftAcademicYear] = useState("")
   const [draftImage, setDraftImage] = useState(null)
 
 
@@ -26,7 +27,9 @@ const StudentComponent = ({student}) => {
 
     const formData = new FormData()
     formData.append('email', draftEmail)
+    formData.append('academicYear',draftAcademicYear)
     formData.append('studentImage', draftImage)
+    
 
     const response = await fetch("/api/admin/lmsUsers/students/" + student._id,{
       method:"PATCH",
@@ -73,6 +76,7 @@ const StudentComponent = ({student}) => {
             <p><strong>Registration No: </strong>{student.registrationNumber}</p>
             <p><strong>Name: </strong>{student.fullName}</p>
             <p><strong>Email: </strong>{student.email}</p>
+            <p><strong>Academic Year: </strong>{student.academicYear}</p>
             <p><strong>Department: </strong>{student.department}</p>
           </div>
           <div className="col-4 img-part">
@@ -83,6 +87,7 @@ const StudentComponent = ({student}) => {
                 onClick={()=>{
                   setIsEditing(true)
                   setDraftEmail(student.email)
+                  setDraftAcademicYear(student.academicYear)
                   setDraftImage(student.studentImage)
                 }}
               >
@@ -109,6 +114,17 @@ const StudentComponent = ({student}) => {
                   type="text"
                   onChange={e=>setDraftEmail(e.target.value)}
                   value={draftEmail}
+                />
+              </div>
+            </div>
+            <div className="form-group">
+              <label>Academic Year</label>
+              <div className="form-group">
+                <input 
+                  className='form-control'
+                  type="text"
+                  onChange={e=>setDraftAcademicYear(e.target.value)}
+                  value={draftAcademicYear}
                 />
               </div>
             </div>

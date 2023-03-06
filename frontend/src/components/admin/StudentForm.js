@@ -13,6 +13,7 @@ const StudentForm = () => {
   const [lastName, setLastName] = useState("")
   const [email, setEmail] = useState("")
   const [department, setDepartment] = useState("")
+  const [academicYear, setAcademicYear] = useState("")
   const [studentImage, setStudentImage] = useState(null)
 
   const handleSubmit = async(e) => {
@@ -29,6 +30,7 @@ const StudentForm = () => {
     formData.append('lastName', lastName)
     formData.append('email', email)
     formData.append('department', department)
+    formData.append('academicYear',academicYear)
     formData.append('studentImage', studentImage)
 
     const response = await fetch("/api/admin/lmsUsers/students",{
@@ -99,6 +101,15 @@ const StudentForm = () => {
             className='form-control'
             onChange={e=>setDepartment(e.target.value)}
             value={department}
+          />
+        </div>
+        <div className="form-group">
+          <label>Academic Year</label>
+          <input 
+            type="text" 
+            className='form-control'
+            onChange={e=>setAcademicYear(e.target.value)}
+            value={academicYear}
           />
         </div>
         <div className="form-group">

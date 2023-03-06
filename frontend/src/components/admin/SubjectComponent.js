@@ -11,7 +11,6 @@ const SubjectComponent = ({subject}) => {
 
 
   //for updating fields
-  const [draftSubjectName, setDraftSubjectName] = useState("")
   const [draftTaughtBy, setDraftTaughtBy] = useState("")
   const [draftNumberOfStudents, setDraftNumberOfStudents] = useState("")
   const [draftTaughtByEmail, setDraftTaughtByEmail] = useState("")
@@ -25,7 +24,6 @@ const SubjectComponent = ({subject}) => {
     }
 
     const formData = new FormData()
-    formData.append('subjectName', draftSubjectName) 
     formData.append('taughtBy', draftTaughtBy)
     formData.append('numberOfStudents', draftNumberOfStudents)
     formData.append('taughtByEmail', draftTaughtByEmail)
@@ -76,13 +74,14 @@ const SubjectComponent = ({subject}) => {
             <p><strong>Taught by: </strong>{subject.taughtBy}</p>
             <p><strong>Taught by Email: </strong>{subject.taughtByEmail}</p>
             <p><strong>Number of Students: </strong>{subject.numberOfStudents}</p>
+            <p><strong>Academic Year: </strong>{subject.academicYear}</p>
+            <p><strong>Department: </strong>{subject.department}</p>
         </div>
         <div className="card-footer">
             <button 
               className='btn btn-outline-success mr-3'
               onClick={()=>{
                 setIsEditing(true)
-                setDraftSubjectName(subject.subjectName)
                 setDraftTaughtBy(subject.taughtBy)
                 setDraftTaughtByEmail(subject.taughtByEmail)
                 setDraftNumberOfStudents(subject.numberOfStudents)
@@ -102,15 +101,6 @@ const SubjectComponent = ({subject}) => {
       {isEditing && (
         <>
           <form onSubmit={handleUpdate}>
-            <div className="form-group">
-              <label>Subject Name</label>
-              <input 
-                type="text" 
-                onChange={e=>setDraftSubjectName(e.target.value)}
-                value={draftSubjectName}
-                className='form-control'
-              />
-            </div>
             <div className="form-group">
               <label>Taught By</label>
               <input 

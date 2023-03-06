@@ -25,10 +25,10 @@ const getSingleSubject = async(req,res) => {
 }
 
 const createSubject = async(req,res) => {
-  const {subjectName, taughtBy, taughtByEmail, numberOfStudents} = req.body
+  const {subjectName, taughtBy, taughtByEmail, numberOfStudents, academicYear, department} = req.body
 
   try {
-    const subject = await subjectModel.create({subjectName, taughtBy, taughtByEmail, numberOfStudents})
+    const subject = await subjectModel.create({subjectName, taughtBy, taughtByEmail, numberOfStudents, academicYear, department})
     res.status(200).json(subject)
   } catch (error) {
     res.status(400).json(error)

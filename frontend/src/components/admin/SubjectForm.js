@@ -12,6 +12,9 @@ const SubjectForm = () => {
   const [taughtBy, setTaughtBy] = useState("")
   const [taughtByEmail, setTaughtByEmail] = useState("")
   const [numberOfStudents, setNumberOfStudents] = useState("")
+  const [academicYear, setAcademicYear] = useState("")
+  const [department, setDepartment] = useState("")
+
 
   const handleSubmit = async(e) => {
     e.preventDefault()
@@ -25,6 +28,8 @@ const SubjectForm = () => {
     formData.append('numberOfStudents',numberOfStudents)
     formData.append('taughtBy', taughtBy)
     formData.append('taughtByEmail', taughtByEmail)
+    formData.append('academicYear',academicYear)
+    formData.append('department',department)
 
     const response = await fetch("/api/admin/subjects",{
       method:'POST',
@@ -79,6 +84,24 @@ const SubjectForm = () => {
             className='form-control'
             onChange={e=>{setNumberOfStudents(e.target.value)}}
             value={numberOfStudents}
+          />
+        </div>
+        <div className="form-group">
+          <label>Academic Year</label>
+          <input 
+            type="text"
+            className='form-control'
+            onChange={e=>{setAcademicYear(e.target.value)}}
+            value={academicYear}
+          />
+        </div>
+        <div className="form-group">
+          <label>Department</label>
+          <input 
+            type="text"
+            className='form-control'
+            onChange={e=>{setDepartment(e.target.value)}}
+            value={department}
           />
         </div>
         <button className='btn btn-outline-primary'>Add</button>
