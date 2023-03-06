@@ -1,4 +1,5 @@
-
+const {admin} = require("../server")
+const bucket = admin.storage().bucket(process.env.STORAGE_BUCKET)
 
 const subjectModel = require("../models/subjectModel")
 const lessonsModel = require("../models/lessonsModel")
@@ -41,8 +42,7 @@ const getAllRelatedLessons = async(req, res) => {
   }
 }
 
-const {admin} = require("../server")
-const bucket = admin.storage().bucket(process.env.STORAGE_BUCKET)
+
 //create a lesson
 const createLesson = async(req,res) => {
   const {subjectId, lessonName} = req.body
@@ -74,4 +74,52 @@ const createLesson = async(req,res) => {
   }
 }
 
-module.exports = {getSingleSubjectByEmail, getSingleSubject,getAllRelatedLessons,createLesson}
+
+const updateLesson = async(req,res) => {
+  const {id} = req.params
+
+  try {
+    const fetchedLesson = await lessonsModel.findById(id)
+
+    fetchedLesson.lessonName = req.body.lessonName || fetchedLesson.lessonName
+
+    let fileUrl = null
+
+    if(req.file){
+      const { originalname, buffer } = req.file;
+
+      const file = bucket.file(`lessons/${originalname}`)
+
+      await file.save(buffer, { contentType: "application/pdf" });
+
+      
+      fileUrl = `https://storage.googleapis.com/${bucket.name}/${file.name}`;
+
+      fetchedLesson.lessonFile = fileUrl
+
+      const updatedLesson = await fetchedLesson.save()
+      res.status(200).json(updatedLesson)
+
+    }else{
+      const updatedLesson = await fetchedLesson.save()
+      res.status(200).json(updatedLesson)
+    }
+
+  } catch (error) {
+    res.status(400).json(error)
+  }
+}
+
+const deleteLesson = async(req,res) => {
+  const {id} = req.params
+
+  try {
+    const deletedLesson  = await lessonsModel.findByIdAndDelete({_id:id})
+    res.status(200).json(deletedLesson)
+  } catch (error) {
+    res.status(400).json(error)
+  }
+}
+
+
+module.exports = {getSingleSubjectByEmail, getSingleSubject,getAllRelatedLessons,createLesson, updateLesson,deleteLesson}

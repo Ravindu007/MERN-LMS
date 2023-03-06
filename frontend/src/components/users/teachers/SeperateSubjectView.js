@@ -4,17 +4,17 @@ import { useAuthContext } from '../../../hooks/useAuthContext'
 import { useSubjectContext } from '../../../hooks/useSubject'
 import LessonsForm from './LessonsForm'
 import LessonView from './LessonView'
+import {useLessonContext} from "../../../hooks/useLessonContext"
 
 const SeperateSubjectView = () => {
 
   const {user} = useAuthContext()
   const {subjects:singleSubject, dispatch} = useSubjectContext()
+  const {lessons, dispatch:dispatchLesson} = useLessonContext()
 
   const {id} = useParams()
 
 
-  // lessons
-  const [lessons,setLessons] = useState([])
 
   //fetching the subject related to that id
   useEffect(()=>{
@@ -41,13 +41,14 @@ const SeperateSubjectView = () => {
       const json = await response.json()
 
       if(response.ok){
-        setLessons(json)
+        dispatchLesson({type:"GET_ALL_LESSONS", payload:json})
       }
     }
 
     fetchRelatedSubject()
     fetchAllRelatedLessons()
   },[dispatch, user, id])
+  
   return (
     <div className='seperateSubjectView'>
       <div className="row">

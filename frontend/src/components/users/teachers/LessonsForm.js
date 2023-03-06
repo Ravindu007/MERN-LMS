@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import { useAuthContext } from '../../../hooks/useAuthContext'
+import { useLessonContext } from '../../../hooks/useLessonContext'
 
 const LessonsForm = ({relatedSubject}) => {
 
   const {user} = useAuthContext()
-
+  const {lessons, dispatch} = useLessonContext()
 
   const subjectId = relatedSubject._id
   const [lessonName, setLessonName] = useState("")
@@ -28,6 +29,10 @@ const LessonsForm = ({relatedSubject}) => {
     })
 
     const json = await response.json()
+
+    if(response.ok){
+      dispatch({type:"CREATE_LESSON", payload:json})
+    }
   }
 
   return (

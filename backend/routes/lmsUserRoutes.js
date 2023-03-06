@@ -1,7 +1,7 @@
 const express = require("express")
 const multer = require("multer")
 
-const {getSingleSubjectByEmail, getSingleSubject, getAllRelatedLessons,createLesson} = require("../controllers/lmsUserControls")
+const {getSingleSubjectByEmail, getSingleSubject, getAllRelatedLessons,createLesson, updateLesson,deleteLesson} = require("../controllers/lmsUserControls")
 
 // middleware
 const requireAuth = require("../middleware/requireAuth")
@@ -35,6 +35,10 @@ router.get("/teacher/allRelatedLessons", getAllRelatedLessons)
 
 //create a lesson
 router.post("/teacher/allRelatedLessons", upload.single('lessonFile'), createLesson)
+
+router.patch("/teacher/allRelatedLessons/:id",upload.single('lessonFile'),updateLesson )
+
+router.delete("/teacher/allRelatedLessons/:id",deleteLesson )
 
 
 module.exports = router
