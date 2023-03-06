@@ -15,6 +15,7 @@ const SeperateSubjectView = () => {
   const {id} = useParams()
 
 
+  const [isLoading ,setisLoading] = useState(true)
 
   //fetching the subject related to that id
   useEffect(()=>{
@@ -42,6 +43,7 @@ const SeperateSubjectView = () => {
 
       if(response.ok){
         dispatchLesson({type:"GET_ALL_LESSONS", payload:json})
+        setisLoading(false)
       }
     }
 
@@ -54,9 +56,11 @@ const SeperateSubjectView = () => {
       <div className="row">
       <div className="lessons col-7">
         {/* fetch lessons related to this subject id */}
-        {lessons && lessons.map((lesson)=>(
-          <LessonView key={lesson._id} lesson={lesson}/>
-        ))}
+        {isLoading ? <p>LOADING....</p> :(
+          lessons && lessons.map((lesson)=>(
+            <LessonView key={lesson._id} lesson={lesson}/>
+          ))
+        )}
       </div>
       <div className="create-lesson col-5">
         {/* lessons form  when saving lessons save the subject id in the lessons doc*/}
