@@ -1,5 +1,4 @@
-const {admin} = require("../server")
-const bucket = admin.storage().bucket(process.env.STORAGE_BUCKET)
+
 
 const subjectModel = require("../models/subjectModel")
 const lessonsModel = require("../models/lessonsModel")
@@ -42,7 +41,8 @@ const getAllRelatedLessons = async(req, res) => {
   }
 }
 
-
+const {admin} = require("../server")
+const bucket = admin.storage().bucket(process.env.STORAGE_BUCKET)
 //create a lesson
 const createLesson = async(req,res) => {
   const {subjectId, lessonName} = req.body
@@ -51,27 +51,19 @@ const createLesson = async(req,res) => {
     let fileUrl = null
 
     if(req.file){
-      const fileName = req.file.originalname
-      const file = bucket.file(fileName)
+      const { originalname, buffer } = req.file;
 
-      const stream = file.createWriteStream({
-        metadata:{
-          contentType:req.file.mimetype
-        }
-      })
+      const file = bucket.file(`lessons/${originalname}`)
 
-      stream.on("error",(err)=>{
-        console.log(err);
-      })
+      await file.save(buffer, { contentType: "application/pdf" });
 
-      stream.on("finish",async()=>{
-        fileUrl = `https://storage.googleapis.com/${bucket.name}/lessons/${fileName}`
+      
+      fileUrl = `https://storage.googleapis.com/${bucket.name}/${file.name}`;
 
-        const createdLesson = await lessonsModel.create({subjectId, lessonName, lessonFile:fileUrl})
-        res.status(200).json(createdLesson)
-      })
+      const createdLesson = await lessonsModel.create({subjectId, lessonName, lessonFile:fileUrl})
+      
+      res.status(200).json(createdLesson)
 
-      stream.end(req.file.buffer)
     }else{
       const createdLesson = await lessonsModel.create({subjectId, lessonName, lessonFile:null})
       res.status(200).json(createdLesson)

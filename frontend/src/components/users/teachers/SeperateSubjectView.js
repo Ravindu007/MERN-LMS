@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import { useAuthContext } from '../../../hooks/useAuthContext'
 import { useSubjectContext } from '../../../hooks/useSubject'
 import LessonsForm from './LessonsForm'
+import LessonView from './LessonView'
 
 const SeperateSubjectView = () => {
 
@@ -53,7 +54,7 @@ const SeperateSubjectView = () => {
       <div className="lessons col-7">
         {/* fetch lessons related to this subject id */}
         {lessons && lessons.map((lesson)=>(
-          <p key={lesson._id}>{lesson.lessonName}</p>
+          <LessonView key={lesson._id} lesson={lesson}/>
         ))}
       </div>
       <div className="create-lesson col-5">

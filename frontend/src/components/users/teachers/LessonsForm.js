@@ -5,8 +5,9 @@ const LessonsForm = ({relatedSubject}) => {
 
   const {user} = useAuthContext()
 
+
+  const subjectId = relatedSubject._id
   const [lessonName, setLessonName] = useState("")
-  const [subjectId, setSubjectId] = useState(relatedSubject._id)
   const [lessonFile, setLessonFile] = useState(null)
 
 
