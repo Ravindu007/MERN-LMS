@@ -1,9 +1,9 @@
 import {useAuthContext} from "./useAuthContext"
-// import {useNavigate} from "react-router-dom"
+import {useNavigate} from "react-router-dom"
 import { useSubjectContext } from "./useSubject"
 
 export const useLogout = () => {
-  // const navigate = useNavigate()
+  const navigate = useNavigate()
 
   const {dispatch}  = useAuthContext()
   const {dispatch:subjectDispatch} = useSubjectContext()
@@ -18,7 +18,7 @@ export const useLogout = () => {
     // setting null when logout
     subjectDispatch({type:'GET_ALL_SUBJECTS',payload:null})
     // navigate to login
-    // navigate("/login")
+    navigate("/login")
   }
   
   return {logout}

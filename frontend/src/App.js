@@ -6,6 +6,7 @@ import SeperateSubjectView from "./components/users/teachers/SeperateSubjectView
 import { useAuthContext } from "./hooks/useAuthContext";
 
 //pages
+import Home from "./pages/Home"
 import AdminDashboard from "./pages/adminPages/AdminDashboard";
 import StudentTab from "./pages/adminPages/StudentTab";
 import SubjectTab from "./pages/adminPages/SubjectTab";
@@ -18,24 +19,31 @@ import SubjectView from "./pages/user/teacher/SubjectView";
 function App() {
 
   const {user} = useAuthContext()
-
   
+  const isAdminUser = user && user.email === process.env.REACT_APP_ADMIN_EMAIL;
+
   return (
     <div className="App"> 
     <BrowserRouter>
-      <Navbar/>
+      <Navbar isAdmin={isAdminUser}/>
       <Routes>
+        {/* home route */}
+        <Route path="/" element={user ? <Home/> : <Navigate to="/login"/>} />
 
         {/* admin routes */}
-        <Route path="/admin" element={user ? <AdminDashboard/> : <Navigate to="/login"/>} />
-        <Route path="/admin/teachers" element={user ? <TeacherTab/> : <Navigate to="/login"/>} />
-        <Route path="/admin/students" element={user ?<StudentTab/> :<Navigate to="/login"/>} />
-        <Route path="/admin/subjects" element={user ? <SubjectTab/> :<Navigate to="/login"/>} />
+        {isAdminUser && (
+          <>
+          <Route path="/admin" element={user ? <AdminDashboard/> : <Navigate to="/login"/>} />
+          <Route path="/admin/teachers" element={user ? <TeacherTab/> : <Navigate to="/login"/>} />
+          <Route path="/admin/students" element={user ?<StudentTab/> :<Navigate to="/login"/>} />
+          <Route path="/admin/subjects" element={user ? <SubjectTab/> :<Navigate to="/login"/>} />
+          </>
+        )}
 
 
         {/* Authentication user routes */}
-        <Route path="/login" element={!user ? <Login/>: <Navigate to="/admin"/>}/>
-        <Route path="/signup" element={!user ? <Signup/>: <Navigate to="/admin"/>}/>
+        <Route path="/login" element={!user ? <Login/>: <Navigate to="/"/>}/>
+        <Route path="/signup" element={!user ? <Signup/>: <Navigate to="/"/>}/>
 
         {/* teacher users */}
         <Route path="/lmsUser/teacher/subjectView" element={user ? <SubjectView/>:<Navigate to="/login"/>}/>
