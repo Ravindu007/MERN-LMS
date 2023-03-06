@@ -11,19 +11,6 @@ const getAllSubjects = async(req,res) => {
   }
 }
 
-// get a  related subject using the user id
-const getSingleSubjectByEmail = async(req,res) => {
-
-  const userEmail = req.userEmail
-  try{
-    const singleSubject = await subjectModel.find({taughtByEmail:userEmail})
-    res.status(200).json(singleSubject)
-  }catch(error){
-    res.status(400).json(error)
-  }
-  
-}
-
 
 const getSingleSubject = async(req,res) => {
 
@@ -38,10 +25,10 @@ const getSingleSubject = async(req,res) => {
 }
 
 const createSubject = async(req,res) => {
-  const {subjectName, numberOfStudents} = req.body
+  const {subjectName, taughtBy, taughtByEmail, numberOfStudents} = req.body
 
   try {
-    const subject = await subjectModel.create({subjectName, numberOfStudents})
+    const subject = await subjectModel.create({subjectName, taughtBy, taughtByEmail, numberOfStudents})
     res.status(200).json(subject)
   } catch (error) {
     res.status(400).json(error)
@@ -70,5 +57,5 @@ const deleteSubject = async(req,res) => {
 }
 
 module.exports = {
-  getAllSubjects, getSingleSubject, getSingleSubjectByEmail, createSubject, updateSubject, deleteSubject
+  getAllSubjects, getSingleSubject, createSubject, updateSubject, deleteSubject
 }

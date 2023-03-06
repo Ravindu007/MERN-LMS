@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import SubjectComponent from "../../components/admin/SubjectComponent"
 import { useSubjectContext } from "../../hooks/useSubject"
@@ -12,6 +12,10 @@ const SubjectTab = () => {
 
   const {subjects, dispatch} = useSubjectContext()
 
+
+  // loadin state
+  const [isLoading , setIsLoading] = useState(true)
+
   useEffect(()=>{
     const fetchAllSubjects = async() => {
       const response = await fetch("/api/admin/subjects",{
@@ -23,6 +27,7 @@ const SubjectTab = () => {
 
       if(response.ok){
         dispatch({type:"GET_ALL_SUBJECTS", payload:json})
+        setIsLoading(false)
       }
     }
 
@@ -35,10 +40,12 @@ const SubjectTab = () => {
     <div className="tab">
       <div className="row">
         <div className="col-8 items">
-          {subjects && 
-            subjects.map((subject)=>(
-                <SubjectComponent key={subject._id} subject={subject} />
-            ))}
+          {isLoading ? <p>LOADING</p> : (
+            subjects && 
+              subjects.map((subject)=>(
+                  <SubjectComponent key={subject._id} subject={subject} />
+              ))
+          )}
         </div>  
         <div className="col-4 add-item">
           {<SubjectForm/>}

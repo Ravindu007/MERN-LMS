@@ -17,6 +17,7 @@ module.exports = {admin:admin}
 //routes path
 const adminRoutes = require("./routes/adminRoutes")
 const userRoutes = require("./routes/userRoutes")
+const lmsUserRoutes = require("./routes/lmsUserRoutes")
 
 
 const App = express()
@@ -33,6 +34,9 @@ App.use(express.json())
 App.use('/api/admin',adminRoutes)
 //user Routes (authentication)
 App.use('/api/user',userRoutes)
+//Lms user routes'
+App.use('/api/lmsUsers',lmsUserRoutes)
+
 
 
 mongoose.set('strictQuery', false)

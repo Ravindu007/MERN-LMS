@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+import Subject from '../../../components/users/teachers/Subject'
 import {useAuthContext} from "../../../hooks/useAuthContext"
 import {useSubjectContext} from "../../../hooks/useSubject"
 
@@ -7,11 +8,15 @@ const SubjectView = () => {
   const {user} = useAuthContext()
   const {subjects, dispatch} = useSubjectContext()
 
+
+  //loading state
+  const [isLoading, setIsLoading] = useState(true)
+
   //fetch subjetcs related to email
   useEffect(()=>{
 
     const fetchRelatedSubject = async() => {
-      const response = await fetch("/api/admin/lmsUser/teacher/getRealtedSubjects/",{
+      const response = await fetch("/api/lmsUsers/teacher/getRealtedSubjects",{
         headers:{
           'Authorization':`${user.email} ${user.token}`
         }
@@ -20,8 +25,8 @@ const SubjectView = () => {
       const json = await response.json()
 
       if(response.ok){
-        console.log(json);
         dispatch({type:'GET_SINGLE_SUBJECT', payload:json})
+        setIsLoading(false)
       }
     }
 
@@ -30,9 +35,15 @@ const SubjectView = () => {
 
   return (
     <div className="subjectView">
-      {subjects && subjects.map((subject)=>(
-        <p key={subject._id}>{subject.subjectName}</p>
-      ))}
+      <div className="row">
+          {isLoading ? <p>LOADING</p> : (
+            subjects && subjects.map((subject)=>(
+              <div key={subject._id} className="col-6">
+                <Subject subject={subject}/>
+              </div>
+            ))
+          )}
+      </div>
     </div>
   )
 }

@@ -1,9 +1,9 @@
 const express = require("express")
 const multer = require("multer")
 
-const {createTeacherUser, getAllTeacherUsers, getSingleTeacherUser, updateTeacherUsers, deleteTeacherUsers, getAllStudents,getSingleStudent, createStudentUser, updateStudentUser, deleteStudentUser} = require("../controllers/lmsUserControllers")
+const {createTeacherUser, getAllTeacherUsers, getSingleTeacherUser, updateTeacherUsers, deleteTeacherUsers, getAllStudents,getSingleStudent, createStudentUser, updateStudentUser, deleteStudentUser} = require("../controllers/adminControllers")
 
-const {getAllSubjects, getSingleSubject, createSubject, updateSubject, deleteSubject,getSingleSubjectByEmail} = require("../controllers/subjectControllers")
+const {getAllSubjects, getSingleSubject, createSubject, updateSubject, deleteSubject} = require("../controllers/subjectControllers")
 
 // middleware
 const requireAuth = require("../middleware/requireAuth")
@@ -58,8 +58,6 @@ router.patch("/lmsUsers/students/:id",upload.single('studentImage'), updateStude
 router.delete("/lmsUsers/students/:id",deleteStudentUser)
 
 
-// user routes
-// user Teacher routes
-router.get("/lmsUser/teacher/getRealtedSubjects",getSingleSubjectByEmail)
+
 
 module.exports = router
