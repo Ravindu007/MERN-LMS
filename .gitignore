@@ -2,3 +2,4 @@
 /backend/node_modules
 /backend/serviceAccount.json
 /frontend/node_modues
+/frontend/.env

@@ -31,7 +31,7 @@ const SubjectView = () => {
     }
 
     fetchRelatedSubject()
-  },[dispatch])
+  },[dispatch, user])
 
   return (
     <div className="subjectView">

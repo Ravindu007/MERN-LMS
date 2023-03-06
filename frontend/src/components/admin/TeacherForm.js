@@ -32,7 +32,7 @@ const TeacherForm = () => {
     if(user){
       fetchAllSubjects()
     }
-  },[setSubjectList, user])
+  },[user,])
 
 
   //input fields

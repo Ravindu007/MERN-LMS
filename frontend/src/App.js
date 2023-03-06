@@ -1,5 +1,6 @@
 import {BrowserRouter, Routes, Route, Navigate} from "react-router-dom"
 import Navbar from "./components/navbar/Navbar";
+import SeperateSubjectView from "./components/users/teachers/SeperateSubjectView";
 
 //context
 import { useAuthContext } from "./hooks/useAuthContext";
@@ -17,6 +18,8 @@ import SubjectView from "./pages/user/teacher/SubjectView";
 function App() {
 
   const {user} = useAuthContext()
+
+  
   return (
     <div className="App"> 
     <BrowserRouter>
@@ -36,6 +39,7 @@ function App() {
 
         {/* teacher users */}
         <Route path="/lmsUser/teacher/subjectView" element={user ? <SubjectView/>:<Navigate to="/login"/>}/>
+        <Route path="/lmsUser/teacher/subjectView/view/:id" element={user ? <SeperateSubjectView/> : <Navigate to="/login"/>}/>
   
       </Routes>
     </BrowserRouter>      

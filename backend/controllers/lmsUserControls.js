@@ -16,4 +16,17 @@ const getSingleSubjectByEmail = async(req,res) => {
   
 }
 
-module.exports = {getSingleSubjectByEmail}
+const getSingleSubject = async(req,res) => {
+
+  const {id} = req.params
+  try{
+    const singleSubject = await subjectModel.findById(id)
+    res.status(200).json(singleSubject)
+  }catch(error){
+    res.status(400).json(error)
+  }
+  
+}
+
+
+module.exports = {getSingleSubjectByEmail, getSingleSubject}
