@@ -64,7 +64,9 @@ const SeperateSubjectView = () => {
       </div>
       <div className="create-lesson col-5">
         {/* lessons form  when saving lessons save the subject id in the lessons doc*/}
-        <LessonsForm relatedSubject={singleSubject}/>
+        {isLoading ? <p>LOADING...</p> : (
+          <LessonsForm relatedSubject={singleSubject}/>
+        )}
       </div>  
       </div>
     </div>

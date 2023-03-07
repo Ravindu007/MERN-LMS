@@ -38,7 +38,7 @@ const LessonsForm = ({relatedSubject}) => {
   return (
     <form onSubmit={handleSubmit}>
       <div className="form-group">
-        <label>Leeson Name</label>
+        <label>Lesson Name</label>
         <input 
           type="text" 
           className='form-control'
@@ -47,7 +47,7 @@ const LessonsForm = ({relatedSubject}) => {
         />
       </div>
       <div className="form-group">
-        <label>Leeson File</label>
+        <label>Lesson File</label>
         <input 
           type="file" 
           className='form-control'
