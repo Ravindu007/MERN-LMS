@@ -31,6 +31,7 @@ const StudentForm = () => {
     formData.append('email', email)
     formData.append('department', department)
     formData.append('academicYear',academicYear)
+    formData.append('userRole','student')
     formData.append('studentImage', studentImage)
 
     const response = await fetch("/api/admin/lmsUsers/students",{
@@ -52,6 +53,26 @@ const StudentForm = () => {
       setEmail("")
       setDepartment("")
       setStudentImage(null)
+    }
+
+
+    //also save the user in the commpn user collection
+    const formData2 = new FormData()
+    formData2.append('fullName',fullName)
+    formData2.append('email',email)
+    formData2.append('userRole','student')
+
+    const response2 = await fetch("/api/admin/lmsUser/commonUser",{
+      method:"POST",
+      body:formData2,
+      headers:{
+        'Authorization' : `${user.email} ${user.token}`
+      }
+    })
+
+    const json2 = await response2.json2()
+    if(response2.ok){
+      //console.log(json2);
     }
   }
 

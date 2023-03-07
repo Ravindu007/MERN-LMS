@@ -1,7 +1,7 @@
 const express = require("express")
 const multer = require("multer")
 
-const {createTeacherUser, getAllTeacherUsers, getSingleTeacherUser, updateTeacherUsers, deleteTeacherUsers, getAllStudents,getSingleStudent, createStudentUser, updateStudentUser, deleteStudentUser} = require("../controllers/adminControllers")
+const {createTeacherUser, getAllTeacherUsers, getSingleTeacherUser, updateTeacherUsers, deleteTeacherUsers, getAllStudents,getSingleStudent, createStudentUser, updateStudentUser, deleteStudentUser,getAllCommonUsers,fetchUserRole,createCommonUser} = require("../controllers/adminControllers")
 
 const {getAllSubjects, getSingleSubject, createSubject, updateSubject, deleteSubject} = require("../controllers/subjectControllers")
 
@@ -18,8 +18,20 @@ const upload = multer({
 
 const uploadSubject = multer()
 
+const uploadCommonUser = multer()
+
 
 router.use(requireAuth)
+
+
+//common user
+router.get("/lmsUser/commonUser",getAllCommonUsers)
+
+router.get("/lmsUser/commonUser/userRole",fetchUserRole)
+
+router.post("/lmsUser/commonUser",uploadCommonUser.none(),  createCommonUser)
+
+
 
 
 //admin - USER  Routes

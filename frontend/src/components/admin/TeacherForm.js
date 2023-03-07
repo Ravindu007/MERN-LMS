@@ -41,7 +41,6 @@ const TeacherForm = () => {
   const [lastName, setLastName] = useState("")
   const [email, setEmail] = useState("")
   const [phoneNumber,setPhoneNumber] = useState("")
-  const [userRole,setUserRole] = useState("")
   const [department,setDepartment] = useState("")
   const [subject, setSubject] = useState("")
   const [image, setImage] = useState(null)
@@ -60,7 +59,7 @@ const TeacherForm = () => {
     formData1.append('lastName',lastName)
     formData1.append('email',email)
     formData1.append('phoneNumber',phoneNumber)
-    formData1.append('userRole',userRole)
+    formData1.append('userRole','teacher') //staticaly change the role
     formData1.append('department',department)
     formData1.append('subject',subject)
     formData1.append('teacherImage', image)
@@ -82,7 +81,6 @@ const TeacherForm = () => {
       setLastName("")
       setEmail("")
       setPhoneNumber("")
-      setUserRole("")
       setDepartment("")
       setSubject("")
     }
@@ -107,7 +105,26 @@ const TeacherForm = () => {
       dispatchSubject({type:'UPDATE_SUBJECT',payload:json2})
     }
 
-    
+
+
+    //also save the user in the commpn user collection
+    const formData3 = new FormData()
+    formData3.append('fullName',fullName)
+    formData3.append('email',email)
+    formData3.append('userRole','teacher')
+
+    const response3 = await fetch("/api/admin/lmsUser/commonUser",{
+      method:"POST",
+      body:formData3,
+      headers:{
+        'Authorization' : `${user.email} ${user.token}`
+      }
+    })
+
+    const json3 = await response3.json()
+    if(response3.ok){
+      //console.log(json3);
+    }
   }
 
   return (
@@ -157,18 +174,6 @@ const TeacherForm = () => {
             onChange={e=>{setPhoneNumber(e.target.value)}}
             value={phoneNumber}
           />
-        </div>
-        <div className="form-group">
-          <label>User Role</label>
-          <select 
-            className="form-select" 
-            onChange={e=>{setUserRole(e.target.value)}}
-            value={userRole}
-          >
-            <option>Select</option>
-            <option value="teacher">Teacher</option>
-            <option value="student">Student</option>
-        </select>
         </div>
         <div className="form-group">
           <label>Department</label>

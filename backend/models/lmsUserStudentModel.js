@@ -10,7 +10,8 @@ const lmsUserStudentSchema = new Schema({
   email:{type:String, required:true},
   department:{type:String, required:true},
   academicYear:{type:String, required:true},
-  studentImage:{type:String}
+  studentImage:{type:String},
+  userRole:{type:String, required:true}
 },{timestamps:true})
 
 module.exports = mongoose.model('student', lmsUserStudentSchema)

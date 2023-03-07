@@ -16,6 +16,7 @@ import Signup from "./pages/authentication/Signup";
 import SubjectView from "./pages/user/teacher/SubjectView";
 import StudentSubjectView from "./pages/user/student/StudentSubjectView";
 import SeperateSubjectStudentView from "./components/users/students/SeperateSubjectStudentView";
+import { useEffect, useState } from "react";
 
 
 function App() {
@@ -24,10 +25,32 @@ function App() {
   
   const isAdminUser = user && user.email === process.env.REACT_APP_ADMIN_EMAIL;
 
+  const [fetchUserRole, setFetchUserRole] = useState("")
+
+  useEffect(()=>{
+    //fetch all common users in order to figure out the user role based on email
+    const fetchAllUsers = async() =>{
+      const response = await fetch(`/api/admin/lmsUser/commonUser/userRole?userEmail=${user.email}`,{
+        headers:{
+          'Authorization':`${user.email} ${user.token}`
+        }
+      })
+      const json  = await response.json()
+
+      if(response.ok){
+        setFetchUserRole(json[0].userRole)
+      }
+    }
+
+    if(user){
+      fetchAllUsers()
+    }
+  },[user,setFetchUserRole, fetchUserRole])
+
   return (
     <div className="App"> 
     <BrowserRouter>
-      <Navbar isAdmin={isAdminUser}/>
+      <Navbar isAdmin={isAdminUser} userRole={fetchUserRole}/>
       <Routes>
         {/* home route */}
         <Route path="/" element={user ? <Home/> : <Navigate to="/login"/>} />
@@ -47,13 +70,25 @@ function App() {
         <Route path="/login" element={!user ? <Login/>: <Navigate to="/"/>}/>
         <Route path="/signup" element={!user ? <Signup/>: <Navigate to="/"/>}/>
 
-        {/* teacher users */}
+                
+      {/* teacher user */}
+      {fetchUserRole === 'teacher'&& (
+        <>
         <Route path="/lmsUser/teacher/subjectView" element={user ? <SubjectView/>:<Navigate to="/login"/>}/>
         <Route path="/lmsUser/teacher/subjectView/view/:id" element={user ? <SeperateSubjectView/> : <Navigate to="/login"/>}/>
+        </>
+      )}
+        
 
+
+      {fetchUserRole === 'student' && (
+      <>
         {/* student user */}
         <Route path="/lmsUser/student/subjectView" element={user ? <StudentSubjectView/> : <Navigate to="/"/>}/>
         <Route path="/lmsUser/student/subjectView/view/:id" element={user ? <SeperateSubjectStudentView/> : <Navigate to="/"/>}/>
+      </>
+      )}
+        
   
       </Routes>
     </BrowserRouter>      

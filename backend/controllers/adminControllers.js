@@ -6,6 +6,45 @@ const bucket = admin.storage().bucket(process.env.STORAGE_BUCKET)
 //models
 const lmsUserTeacherModel = require("../models/lmsUserTeacherModel")
 const lmsUserStudentModel = require("../models/lmsUserStudentModel")
+const commonUserModel = require("../models/commonUserModel")
+
+
+
+//common users
+const getAllCommonUsers = async(req,res) => {
+  try {
+    const allCommonUsers = await commonUserModel.find({}).sort({createdAt:-1})
+    res.status(200).json(allCommonUsers)
+  } catch (error) {
+    res.status(400).json(error)
+  }
+}
+
+
+const fetchUserRole = async(req,res) => {
+  try {
+    const userEmail = req.query.userEmail
+    const allCommonUsers = await commonUserModel.find({email:userEmail}).sort({createdAt:-1})
+    res.status(200).json(allCommonUsers)
+  } catch (error) {
+    res.status(400).json(error)
+  }
+}
+
+
+const createCommonUser = async(req,res)=>{
+  const {fullName, email, userRole} = req.body
+
+  try {
+    const createdCommonUser = await commonUserModel.create({fullName, email, userRole})
+    res.status(200).json(createdCommonUser)
+  } catch (error) {
+   res.status(400).json(error) 
+  }
+}
+
+
+
 
 //teacher users 
 const getAllTeacherUsers = async(req,res)=>{
@@ -189,7 +228,7 @@ const getSingleStudent = async(req,res) => {
 }
 
 const createStudentUser = async(req,res) => {
-  const {fullName,firstName,lastName,registrationNumber,email,department,academicYear} = req.body
+  const {fullName,firstName,lastName,registrationNumber,email,department,academicYear,userRole} = req.body
 
   try {
     let imageUrl = null
@@ -211,7 +250,7 @@ const createStudentUser = async(req,res) => {
       stream.on("finish", async()=>{
         imageUrl = `https://storage.googleapis.com/${bucket.name}/${fileName}`
 
-        const student = await lmsUserStudentModel.create({fullName,firstName,lastName,registrationNumber,email,department,academicYear, studentImage:imageUrl})
+        const student = await lmsUserStudentModel.create({fullName,firstName,lastName,registrationNumber,email,department,academicYear, userRole,studentImage:imageUrl})
 
         res.status(200).json(student)
       })
@@ -219,7 +258,7 @@ const createStudentUser = async(req,res) => {
       stream.end(req.file.buffer)
 
     }else{
-      const student = await lmsUserStudentModel.create({fullName,firstName,lastName,registrationNumber,email,department,academicYear, studentImage:null})
+      const student = await lmsUserStudentModel.create({fullName,firstName,lastName,registrationNumber,email,department,academicYear,userRole, studentImage:null})
       res.status(200).json(student)
     }
   } catch (error) {
@@ -283,4 +322,4 @@ const deleteStudentUser = async(req,res) => {
   }
 }
 
-module.exports = {createTeacherUser, getAllTeacherUsers, getSingleTeacherUser, updateTeacherUsers, deleteTeacherUsers, getAllStudents,getSingleStudent, createStudentUser, updateStudentUser, deleteStudentUser}
+module.exports = {createTeacherUser, getAllTeacherUsers, getSingleTeacherUser, updateTeacherUsers, deleteTeacherUsers, getAllStudents,getSingleStudent, createStudentUser, updateStudentUser, deleteStudentUser,getAllCommonUsers,fetchUserRole,createCommonUser}
