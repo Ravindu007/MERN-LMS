@@ -19,7 +19,7 @@ const SeperateSubjectStudentView = () => {
   // subject id
   const {id} = useParams()
 
-
+  const [isSubjectLoading , setisSubjectLoading] = useState(true)
   const [isLoading ,setisLoading] = useState(true)
   const [isAssignmentLoading ,setIsAssignmentLoading] = useState(true)
 
@@ -36,6 +36,7 @@ const SeperateSubjectStudentView = () => {
 
       if(response.ok){
         dispatch({type:'GET_SINGLE_SUBJECT', payload:json})
+        setisSubjectLoading(false)
       }
     }
 
@@ -73,7 +74,9 @@ const SeperateSubjectStudentView = () => {
   
   return (
     <div className='seperateSubjectView'>
-    <h6 style={{color:"blue"}}>{singleSubject.subjectName}: {singleSubject.taughtBy}</h6>
+      {isSubjectLoading ? <p>SubjectName</p> : (
+        <h6 style={{color:"blue"}}>{singleSubject.subjectName}: {singleSubject.taughtBy}</h6>
+      )}
       <div className="row">
       <div className="lessons col-12">
       <p>Lessons</p>

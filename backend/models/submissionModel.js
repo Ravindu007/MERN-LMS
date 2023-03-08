@@ -5,6 +5,7 @@ const Schema = mongoose.Schema
 const submissionSchema = new Schema({
   assignmentId:{type:String, required:true},
   registrationNumber:{type:String, required:true},
+  studentEmail:{type:String,required:true},
   submissionFile:{type:String, required:true}
 },{timestamps:true})
 

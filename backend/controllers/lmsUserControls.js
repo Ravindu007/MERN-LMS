@@ -271,10 +271,23 @@ const getAllRelatedSubmissions = async(req,res) => {
   }
 }
 
+//fetching responses related to email
+const getRelavantSubmissionsRelatedToEmail = async(req,res) => {
+  try{
+    const studentEmail = req.query.userEmail
+    const relatedResponse = await submissionModel.find({studentEmail:studentEmail})
+    if(relatedResponse){
+      res.status(200).json(relatedResponse)
+    }
+  }catch(error){
+    res.status(400).json(error)
+  }
+}
+
 
 // create response in student view
 const createAssignmentSubmission = async(req,res) => {
-  const {assignmentId, registrationNumber} = req.body
+  const {assignmentId, registrationNumber, studentEmail} = req.body
 
   try{
     let fileUrl = null
@@ -288,11 +301,11 @@ const createAssignmentSubmission = async(req,res) => {
 
       fileUrl = `https://storage.googleapis.com/${bucket.name}/${file.name}`
 
-      const createdSubmission = await submissionModel.create({assignmentId, registrationNumber, submissionFile:fileUrl})
+      const createdSubmission = await submissionModel.create({assignmentId, registrationNumber,studentEmail, submissionFile:fileUrl})
 
       res.status(200).json(createdSubmission)
     }else{
-      const createdAssignment = await assignmentModel.create({assignmentId, registrationNumber, submissionFile:null})
+      const createdAssignment = await assignmentModel.create({assignmentId, registrationNumber, studentEmail,submissionFile:null})
 
       res.status(200).json(createdAssignment)
     }
@@ -301,4 +314,4 @@ const createAssignmentSubmission = async(req,res) => {
   }
 }
 
-module.exports = {getSingleSubjectByEmail, getSingleSubject,getAllRelatedLessons,createLesson, updateLesson,deleteLesson,getStudentDetails,getRelatedSubjects,getAllAssignements,getSingleAssignment, createAssignemnt, updateAssignment, deleteAssignment,getAllRelatedSubmissions,createAssignmentSubmission}
+module.exports = {getSingleSubjectByEmail, getSingleSubject,getAllRelatedLessons,createLesson, updateLesson,deleteLesson,getStudentDetails,getRelatedSubjects,getAllAssignements,getSingleAssignment, createAssignemnt, updateAssignment, deleteAssignment,getAllRelatedSubmissions,getRelavantSubmissionsRelatedToEmail, createAssignmentSubmission}

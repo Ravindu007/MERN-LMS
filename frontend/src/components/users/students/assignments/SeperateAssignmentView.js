@@ -42,10 +42,13 @@ const SeperateAssignmentView = () => {
   const handleSubmit = async(e) =>{
     e.preventDefault()
 
+    const userEmail = user.email
+
     const formData = new FormData()
 
     formData.append('assignmentId',id)
     formData.append('registrationNumber', userRegistrationNumber)
+    formData.append('studentEmail',userEmail)
     formData.append('submissionFile',submissionFile)
 
     const response = await fetch("/api/lmsUsers/getSubmissions",{
