@@ -16,11 +16,13 @@ const SeperateSubjectView = () => {
   const {lessons, dispatch:dispatchLesson} = useLessonContext()
   const {assignments, dispatch:dispatchAssignment} = useAssignmentContext()
 
-
+  // subject id
   const {id} = useParams()
 
 
-  const [isLoading ,setisLoading] = useState(true)
+  const [relatedSubjectFetched, setRelatedSubjectFetched] = useState(false);
+  const [allRelatedLessonsFetched, setAllRelatedLessonsFetched] = useState(false);
+  const [allRelatedAssignmentsFetched, setAllRelatedAssignmentsFetched] = useState(false);
 
   //fetching the subject related to that id
   useEffect(()=>{
@@ -35,7 +37,7 @@ const SeperateSubjectView = () => {
 
       if(response.ok){
         dispatch({type:'GET_SINGLE_SUBJECT', payload:json})
-        setisLoading(false)
+        setRelatedSubjectFetched(true)
       }
     }
 
@@ -49,12 +51,12 @@ const SeperateSubjectView = () => {
 
       if(response.ok){
         dispatchLesson({type:"GET_ALL_LESSONS", payload:json})
-        setisLoading(false)
+        setAllRelatedLessonsFetched(true)
       }
     }
 
     const fetchAllRelatedAssignments = async() => {
-      const response = await fetch(`/api/lmsUsers/teacher/getRelatedAssignments?subjectId=${singleSubject._id}`,{
+      const response = await fetch(`/api/lmsUsers/teacher/getRelatedAssignments?subjectId=${id}`,{
         headers:{
           'Authorization':`${user.email} ${user.token}`
         }
@@ -63,6 +65,7 @@ const SeperateSubjectView = () => {
       const json = await response.json()
       if(response.ok){
         dispatchAssignment({type:"GET_ALL_ASSIGNMENTS",payload:json})
+        setAllRelatedAssignmentsFetched(true)
       }
     }
 
@@ -85,50 +88,50 @@ const handleShowList = () =>{
 
   return (
     <div className='seperateSubjectView'>
-      <div className="row">
-      <div className="lessons col-7">
-        {/* fetch lessons related to this subject id */}
-        {isLoading ? <p>LOADING....</p> :(
-          lessons && lessons.map((lesson)=>(
-            <LessonView key={lesson._id} lesson={lesson}/>
-          ))
-        )}
-      </div>
-      <div className="create-lesson col-5">
-        <div className="row">
-          <div className="col-12  lesson-form">
-            {/* lessons form  when saving lessons save the subject id in the lessons doc*/}
-            {isLoading ? <p>LOADING...</p> : (
-              <LessonsForm relatedSubject={singleSubject}/>
-            )}
-          </div>
-
-          {/* ASSIGNEMNT TAB */}
-          {isLoading ? <p>LOADING</p> : (
-            <>
-            <div className="co-12 assignment-tab mt-5" style={{display:"flex", flexDirection:"column"}}>
-            <p>Assignment Tab</p>
-            <button onClick={handleRowClick} className='btn btn-warning'>Assignmnt-Form</button>
-              {showForm && (
-                  <div className="col-12 assignment-form">
-                    <AssignmentForm subject={singleSubject}/> 
-                  </div>
-              )}
-            <button onClick={handleShowList} className='btn btn-info'>Assignmnt List</button>
-              {showList && (
-                <div className="col-12 assignment-list">
-                  {assignments && assignments.map((assignment)=>(
-                    <AssigmentItem assignment={assignment}/>
-                  ))}
-                </div>  
-              )}
-            </div>
-          </>
-          )}
-          </div>
-        </div>
-        </div>  
-      </div>
+    {relatedSubjectFetched && allRelatedLessonsFetched && allRelatedAssignmentsFetched && (
+       <div className="row">
+       <div className="lessons col-7">
+         {/* fetch lessons related to this subject id */}
+         {
+           lessons && lessons.map((lesson)=>(
+             <LessonView key={lesson._id} lesson={lesson}/>
+           ))
+         }
+       </div>
+       <div className="create-lesson col-5">
+         <div className="row">
+           <div className="col-12  lesson-form">
+             {/* lessons form  when saving lessons save the subject id in the lessons doc*/}
+             
+               <LessonsForm relatedSubject={singleSubject}/>
+ 
+           </div>
+ 
+           {/* ASSIGNEMNT TAB */}
+ 
+             <div className="co-12 assignment-tab mt-5" style={{display:"flex", flexDirection:"column", maxHeight:"380px"}}>
+             <p>Assignment Tab</p>
+             <button onClick={handleRowClick} className='btn btn-warning'>Assignmnt-Form</button>
+               {showForm && (
+                   <div className="col-12 assignment-form">
+                     <AssignmentForm subject={singleSubject}/> 
+                   </div>
+               )}
+             <button onClick={handleShowList} className='btn btn-info'>Assignmnt List</button>
+               {showList && (
+                 <div className="col-12 assignment-list">
+                   {assignments && assignments.map((assignment)=>(
+                     <AssigmentItem key={assignment._id} assignment={assignment}/>
+                   ))}
+                 </div>  
+               )}
+             </div>
+ 
+           </div>
+         </div>
+       </div> 
+    )}
+    </div>
   )
 }
 

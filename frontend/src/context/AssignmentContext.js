@@ -17,15 +17,16 @@ export const assignmentReducer = (state,action) => {
         assignments:[action.payload, ...state.assignments]
       }  
     case 'UPDATE_ASSIGNMENT':
-      const updateAssignment = state.assignments.map(assignment => 
-        assignment._id === action.payload._id ? action.payload : assignment
-      )
-      return{
-        assignments:updateAssignment
+      let updatedAssignment = {...state.assignments};
+      if (updatedAssignment._id === action.payload._id) {
+        updatedAssignment = {...updatedAssignment, ...action.payload};
+      }
+      return {
+        assignments: updatedAssignment
       }
     case 'DELETE_ASSIGNMENT':
       return {
-        assignments:state.assignments.filter((assignment)=>assignment._id !== action.payload._id)
+        assignments:{}
       }  
     default:
       return state 

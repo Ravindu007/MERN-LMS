@@ -17,6 +17,7 @@ import SubjectView from "./pages/user/teacher/SubjectView";
 import StudentSubjectView from "./pages/user/student/StudentSubjectView";
 import SeperateSubjectStudentView from "./components/users/students/SeperateSubjectStudentView";
 import { useEffect, useState } from "react";
+import ViewMoreAssignment from "./components/users/teachers/Assignments/ViewMoreAssignment";
 
 
 function App() {
@@ -76,6 +77,7 @@ function App() {
         <>
         <Route path="/lmsUser/teacher/subjectView" element={user ? <SubjectView/>:<Navigate to="/login"/>}/>
         <Route path="/lmsUser/teacher/subjectView/view/:id" element={user ? <SeperateSubjectView/> : <Navigate to="/login"/>}/>
+        <Route path="/lmsUser/teacher/subjectView/assignments/:id" element={user ? <ViewMoreAssignment/> :<Navigate to="/login"/>}/>
         </>
       )}
         
