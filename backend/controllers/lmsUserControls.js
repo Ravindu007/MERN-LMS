@@ -4,6 +4,7 @@ const bucket = admin.storage().bucket(process.env.STORAGE_BUCKET)
 const subjectModel = require("../models/subjectModel")
 const lessonsModel = require("../models/lessonsModel")
 const lmsUserStudentModel = require("../models/lmsUserStudentModel")
+const assignmentModel = require("../models/assignmentModel")
 
 
 // get a  related subject using the user id
@@ -152,4 +153,108 @@ const deleteLesson = async(req,res) => {
 }
 
 
-module.exports = {getSingleSubjectByEmail, getSingleSubject,getAllRelatedLessons,createLesson, updateLesson,deleteLesson,getStudentDetails,getRelatedSubjects}
+
+
+// assignment controllers
+
+// get all related assignments
+const getAllAssignements = async(req,res) => {
+
+  const subjectId = req.query.subjectId
+  try{
+    const allAssignments = await assignmentModel.find({subjectId:subjectId}).sort({createdAt:-1})
+    res.status(200).json(allAssignments)
+  }catch(error){
+    res.status(400).json(error)
+  }
+}
+
+const getSingleAssignment = async(req,res) => {
+  const {id} = req.params
+  try{
+    const singleAssignment = await assignmentModel.findById(id)
+    res.status(200).json(singleAssignment)
+  }catch(error){
+    res.status(400).json(error)
+  }
+}
+
+//create assignment
+const createAssignemnt = async(req,res) => {
+  const {subjectId, assignmentTitle,deadline} = req.body
+
+  try{
+    let fileUrl = null
+
+    if(req.file){
+      const {originalname, buffer} = req.file 
+
+      const file = bucket.file(`assignments/${originalname}`)
+
+      await file.save(buffer, {contentType:"application/pdf"})
+
+      fileUrl = `https://storage.googleapis.com/${bucket.name}/${file.name}`
+
+      const createdAssignment = await assignmentModel.create({subjectId, assignmentTitle,deadline, assignmentFile:fileUrl})
+
+      res.status(200).json(createdAssignment)
+    }else{
+      const createdAssignment = await assignmentModel.create({subjectId, assignmentTitle,deadline, assignmentFile:null})
+
+      res.status(200).json(createdAssignment)
+    }
+  }catch(error){
+    res.status(400).json(error)
+  }
+}
+
+
+const updateAssignment = async(req,res) => {
+  const {id} = req.params
+
+  try{
+    const assignemnt = await assignmentModel.findById(id)
+
+    // update properties
+    assignemnt.subjectId = req.body.subjectId || assignemnt.subjectId
+    assignemnt.assignmentTitle = req.body.assignmentTitle || assignemnt.assignmentTitle
+    assignemnt.deadline = req.body.deadline || assignemnt.deadline
+
+    let fileUrl = null
+
+    if(req.file){
+      const { originalname, buffer } = req.file;
+
+      const file = bucket.file(`assignments/${originalname}`)
+
+      await file.save(buffer, { contentType: "application/pdf" });
+
+      
+      fileUrl = `https://storage.googleapis.com/${bucket.name}/${file.name}`;
+
+      assignemnt.assignmentFile = fileUrl
+
+      const updatedAssignment = await assignemnt.save()
+      res.status(200).json(updatedAssignment)
+
+    }else{
+      const updatedAssignment = await assignemnt.save()
+      res.status(200).json(updatedAssignment)
+    }
+  }catch(error){
+    res.status(400).json(error)
+  }
+}
+
+const deleteAssignment = async(req,res) => {
+  const {id} = req.params
+
+  try{
+    const deletedAssignment = await assignmentModel.findByIdAndDelete({_id:id})
+    res.status(200).json(deletedAssignment)
+  }catch(error){
+    res.status(400).json(error)
+  }
+}
+
+module.exports = {getSingleSubjectByEmail, getSingleSubject,getAllRelatedLessons,createLesson, updateLesson,deleteLesson,getStudentDetails,getRelatedSubjects,getAllAssignements,getSingleAssignment, createAssignemnt, updateAssignment, deleteAssignment}
