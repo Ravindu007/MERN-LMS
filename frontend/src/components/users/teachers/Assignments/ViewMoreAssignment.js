@@ -104,9 +104,10 @@ const ViewMoreAssignment = () => {
   }
 
   return (
-    <div className="viewMoreAssignment" style={{border:"0.2px solid black"}}>
+    <div className="viewMoreAssignment">
+     <h6>Assignments</h6>
      {!isEditing && singleAssignment && (
-      <div className="row assignemnt">
+      <div className="row assignemnt"  style={{border:"0.2px solid black"}}>
       <div className="col-10 details">
       <p><strong>Assigment Title: </strong>{singleAssignment.assignmentTitle}</p>
       <p><strong>Deadline: </strong>{singleAssignment.deadline}</p>
@@ -181,8 +182,9 @@ const ViewMoreAssignment = () => {
 
 
       {/* responses */}
-      <div className="row responses mt-5" style={{border:"0.2px solid red", display:"flex", flexDirection:"column"}}>
-      <p>Responses</p>
+      <div className="row responses mt-5" style={{border:"0.2px solid red", display:"flex", flexDirection:"column", paddingLeft:"20px"}}>
+      <h6>Responses</h6>
+
         {isloadSubmissions ? <p>LOADING</p> : (
             submissions && submissions.map((submission)=>(
               <SubmissionView key={submission._id} submission={submission}/>

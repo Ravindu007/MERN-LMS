@@ -89,6 +89,8 @@ const handleShowList = () =>{
   return (
     <div className='seperateSubjectView'>
     {relatedSubjectFetched && allRelatedLessonsFetched && allRelatedAssignmentsFetched && (
+       <>
+       <h6 style={{marginLeft:"10px"}}>{singleSubject.subjectName}</h6>
        <div className="row">
        <div className="lessons col-7">
          {/* fetch lessons related to this subject id */}
@@ -130,6 +132,7 @@ const handleShowList = () =>{
            </div>
          </div>
        </div> 
+       </>
     )}
     </div>
   )

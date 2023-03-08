@@ -35,12 +35,15 @@ const AssignmentForm = ({subject}) => {
 
     if(response.ok){
       dispatch({type:"CREATE_ASSIGNMENT", payload:json})
+      setAssignmentTitle("")
+      setDeadline("")
+      setAssignmentFile(null)
     }
   }
 
   return (
     <div className="container">
-      <div className="animate__animated animate__zoomIn" style={{border:"0.2px solid black", padding:"5px"}}>
+      <div style={{border:"0.2px solid black", padding:"5px"}}>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label>Assignemnt Title</label>
@@ -69,9 +72,34 @@ const AssignmentForm = ({subject}) => {
             name='assignmentFile'
           />
         </div>
-        <button className='btn btn-outline-primary'>ADD</button>
+        <button 
+          className='btn btn-outline-primary'
+          data-toggle="modal"
+          data-target="#basicModal"
+          >
+            ADD
+          </button>
       </form>
     </div>
+
+
+    {/* assignment add confirmation */}
+    <div className="modal" tabIndex={-1} role="dialog" id='basicModal'>
+      <div className="modal-dialog" role="document">
+        <div className="modal-content">
+          <div className="modal-body">
+            <p>Assignment Added successfully!.</p>
+            <p>Click on Assignment List to view the added assignment</p>
+          </div>
+          <div className="modal-footer">
+            <button className='btn btn-outline-secondary' data-dismiss="modal">CLOSE</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
     </div>
   )
 }

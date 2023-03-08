@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams, useNavigate, Link } from 'react-router-dom'
 import { useAssignmentContext } from '../../../../hooks/useAssignmentContext'
 import { useAuthContext } from '../../../../hooks/useAuthContext'
 import {useSubmissionContext} from "../../../../hooks/useSubmissionContext"
@@ -85,7 +85,13 @@ const SeperateAssignmentView = () => {
             name='submissionFile'
           />
         </div>
-        <button className='btn btn-outline-info'>SUBMIT</button>
+        <button 
+          className='btn btn-outline-info'
+          data-toggle="modal"
+          data-target="#basicModal"
+        >
+          SUBMIT
+        </button>
         <button 
           className='btn btn-outline-secondary'
           onClick={()=>{
@@ -95,6 +101,27 @@ const SeperateAssignmentView = () => {
             CANCEL
           </button>
       </form>
+
+      <div className="modal" tabIndex={-1} role='dialog' id='basicModal'>
+        <div className="modal-dialog" role='document'>
+          <div className="modal-content">
+            <div className="modal-body">
+              <p>ASSIGNMENT UPLOADED</p>
+            </div>
+            <div className="modal-footer">
+                <button 
+                  className='btn btn-outline-info' 
+                  data-dismiss="modal"
+                  onClick={()=>{
+                    navigate(`/lmsUser/student/subjectView/view/${singleAssignment.subjectId}`)
+                  }}
+                  >
+                    CLOSE
+                  </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }

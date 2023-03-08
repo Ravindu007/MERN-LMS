@@ -119,14 +119,17 @@ const StudentComponent = ({student}) => {
             </div>
             <div className="form-group">
               <label>Academic Year</label>
-              <div className="form-group">
-                <input 
-                  className='form-control'
-                  type="text"
-                  onChange={e=>setDraftAcademicYear(e.target.value)}
-                  value={draftAcademicYear}
-                />
-              </div>
+              <select
+                className='form-select'
+                onChange={e=>setDraftAcademicYear(e.target.value)}
+                value={draftAcademicYear}
+              >
+                <option>Select</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+              </select>
             </div>
             <div className="form-group">
               <label>Image</label>
