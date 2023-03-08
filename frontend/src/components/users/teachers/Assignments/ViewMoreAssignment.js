@@ -3,12 +3,15 @@ import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom'
 import { useAssignmentContext } from '../../../../hooks/useAssignmentContext'
 import { useAuthContext } from '../../../../hooks/useAuthContext'
+import {useSubmissionContext} from "../../../../hooks/useSubmissionContext"
+import SubmissionView from './submissions/SubmissionVIew.js/SubmissionView';
 
 const ViewMoreAssignment = () => {
   const navigate = useNavigate();
 
   const {user} = useAuthContext()
   const {assignments:singleAssignment, dispatch} = useAssignmentContext()
+  const {submissions,dispatch:dispatchSubmission} = useSubmissionContext()
 
 
   const [isEditing, setIsEditing] = useState(false)
@@ -17,6 +20,9 @@ const ViewMoreAssignment = () => {
   const [draftAssignmentTitle, setDraftAssignmentTitle] = useState("")
   const [draftDeadline, setDraftDeadline] = useState("")
   const [draftAssignmentFile, setDraftAssignmentFile] = useState(null)
+
+
+  const [isloadSubmissions, setIsLoadSubmissions] = useState(true)
 
 
   //assignmet id
@@ -37,8 +43,23 @@ const ViewMoreAssignment = () => {
       }
     }
 
+    const fetchAllRelevantSubmissions = async() => {
+      const response = await fetch(`/api/lmsUsers/getSubmissions?assignmentId=${id}`,{
+        headers:{
+          'Authorization':`${user.email} ${user.token}`
+        }
+      })
+      const json = await response.json()
+
+      if(response.ok){
+        dispatchSubmission({type:"GET_ALL_SUBMISSIONS", payload:json})
+        setIsLoadSubmissions(false)
+      }
+    }
+
     if(user){
       fetchSingleAssignemnt()
+      fetchAllRelevantSubmissions()
     }
   },[user, dispatch])
 
@@ -160,8 +181,13 @@ const ViewMoreAssignment = () => {
 
 
       {/* responses */}
-      <div className="row responses mt-5" style={{border:"0.2px solid red"}}>
-        <p>Responses</p>
+      <div className="row responses mt-5" style={{border:"0.2px solid red", display:"flex", flexDirection:"column"}}>
+      <p>Responses</p>
+        {isloadSubmissions ? <p>LOADING</p> : (
+            submissions && submissions.map((submission)=>(
+              <SubmissionView key={submission._id} submission={submission}/>
+            ))
+        )}
       </div>
     </div>
   )

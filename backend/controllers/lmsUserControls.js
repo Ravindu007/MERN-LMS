@@ -5,6 +5,7 @@ const subjectModel = require("../models/subjectModel")
 const lessonsModel = require("../models/lessonsModel")
 const lmsUserStudentModel = require("../models/lmsUserStudentModel")
 const assignmentModel = require("../models/assignmentModel")
+const submissionModel = require("../models/submissionModel")
 
 
 // get a  related subject using the user id
@@ -257,4 +258,47 @@ const deleteAssignment = async(req,res) => {
   }
 }
 
-module.exports = {getSingleSubjectByEmail, getSingleSubject,getAllRelatedLessons,createLesson, updateLesson,deleteLesson,getStudentDetails,getRelatedSubjects,getAllAssignements,getSingleAssignment, createAssignemnt, updateAssignment, deleteAssignment}
+
+
+// responses in teacher view
+const getAllRelatedSubmissions = async(req,res) => {
+  const assignmentId = req.query.assignmentId
+  try{
+    const allRelatedSubmissions = await submissionModel.find({assignmentId:assignmentId}).sort({createdAt:-1})
+    res.status(200).json(allRelatedSubmissions)
+  }catch(error){
+    res.status(400).json(error)
+  }
+}
+
+
+// create response in student view
+const createAssignmentSubmission = async(req,res) => {
+  const {assignmentId, registrationNumber} = req.body
+
+  try{
+    let fileUrl = null
+
+    if(req.file){
+      const {originalname, buffer} = req.file 
+
+      const file = bucket.file(`submissions/${originalname}`)
+
+      await file.save(buffer, {contentType:"application/pdf"})
+
+      fileUrl = `https://storage.googleapis.com/${bucket.name}/${file.name}`
+
+      const createdSubmission = await submissionModel.create({assignmentId, registrationNumber, submissionFile:fileUrl})
+
+      res.status(200).json(createdSubmission)
+    }else{
+      const createdAssignment = await assignmentModel.create({assignmentId, registrationNumber, submissionFile:null})
+
+      res.status(200).json(createdAssignment)
+    }
+  }catch(error){
+    res.status(400).json(error)
+  }
+}
+
+module.exports = {getSingleSubjectByEmail, getSingleSubject,getAllRelatedLessons,createLesson, updateLesson,deleteLesson,getStudentDetails,getRelatedSubjects,getAllAssignements,getSingleAssignment, createAssignemnt, updateAssignment, deleteAssignment,getAllRelatedSubmissions,createAssignmentSubmission}

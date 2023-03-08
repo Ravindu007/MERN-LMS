@@ -7,11 +7,13 @@ import { SubjectContextProvider } from './context/SubjectContext';
 import { AuthContextProvider } from './context/AuthContext';
 import { LessonContextProvider } from './context/LessonContext';
 import { AssignmentContextProvider } from './context/AssignmentContext';
+import { SubmissionContextProvider } from './context/SubmissionContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
   <AuthContextProvider>
+  <SubmissionContextProvider>
   <AssignmentContextProvider>
   <LessonContextProvider>
   <SubjectContextProvider>
@@ -21,6 +23,7 @@ root.render(
   </SubjectContextProvider>
   </LessonContextProvider>
   </AssignmentContextProvider>
+  </SubmissionContextProvider>
   </AuthContextProvider>
   </React.StrictMode>
 );

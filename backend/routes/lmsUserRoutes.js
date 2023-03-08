@@ -1,7 +1,7 @@
 const express = require("express")
 const multer = require("multer")
 
-const {getSingleSubjectByEmail, getSingleSubject, getAllRelatedLessons,createLesson, updateLesson,deleteLesson, getStudentDetails,getRelatedSubjects,getAllAssignements,getSingleAssignment, createAssignemnt, updateAssignment, deleteAssignment} = require("../controllers/lmsUserControls")
+const {getSingleSubjectByEmail, getSingleSubject, getAllRelatedLessons,createLesson, updateLesson,deleteLesson, getStudentDetails,getRelatedSubjects,getAllAssignements,getSingleAssignment, createAssignemnt, updateAssignment, deleteAssignment,getAllRelatedSubmissions,createAssignmentSubmission} = require("../controllers/lmsUserControls")
 
 // middleware
 const requireAuth = require("../middleware/requireAuth")
@@ -62,5 +62,10 @@ router.patch("/teacher/getRelatedAssignments/:id", upload.single('assignmentFile
 
 router.delete("/teacher/getRelatedAssignments/:id", deleteAssignment)
 
+
+// submission routes (students)
+router.get("/getSubmissions", getAllRelatedSubmissions)
+
+router.post("/getSubmissions",upload.single('submissionFile'), createAssignmentSubmission)
 
 module.exports = router
