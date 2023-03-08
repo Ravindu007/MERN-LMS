@@ -70,7 +70,7 @@ const StudentForm = () => {
       }
     })
 
-    const json2 = await response2.json2()
+    const json2 = await response2.json()
     if(response2.ok){
       //console.log(json2);
     }
