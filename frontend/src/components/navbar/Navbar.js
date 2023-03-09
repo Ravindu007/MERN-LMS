@@ -35,9 +35,9 @@ const Navbar = ({isAdmin, userRole}) => {
               {isAdmin && <li className="nav-item"><Link to="/admin" className='nav-link'>ADMIN</Link></li>}
 
               {/* user links */}
-              {userRole === 'teacher' && <li className="nav-item"><Link to="/lmsUser/teacher/subjectView" className='nav-link'>teacher-subjects</Link></li>}
+              {userRole === 'teacher' && <li className="nav-item"><Link to="/lmsUser/teacher/subjectView" className='nav-link'>Courses</Link></li>}
               
-              {userRole === 'student' && <li className="nav-item"><Link to="/lmsUser/student/subjectView" className='nav-link'>student-subjects</Link></li>}
+              {userRole === 'student' && <li className="nav-item"><Link to="/lmsUser/student/subjectView" className='nav-link'>Courses</Link></li>}
               
               <span className='nav-link'>{user.email}</span>
 

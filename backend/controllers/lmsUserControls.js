@@ -271,11 +271,12 @@ const getAllRelatedSubmissions = async(req,res) => {
   }
 }
 
-//fetching responses related to email
+//fetching responses related to email and assignment id
 const getRelavantSubmissionsRelatedToEmail = async(req,res) => {
   try{
     const studentEmail = req.query.userEmail
-    const relatedResponse = await submissionModel.find({studentEmail:studentEmail})
+    const assignmentId = req.query.assignmentId
+    const relatedResponse = await submissionModel.find({assignmentId:assignmentId, studentEmail:studentEmail})
     if(relatedResponse){
       res.status(200).json(relatedResponse)
     }

@@ -14,7 +14,7 @@ const ViewAssignment = ({assignment}) => {
   // fetching already existing records IF THERE ARE ALREADY SUBMISSIONS
   useEffect(()=>{
     const fetchRelatedSubmissions = async() => {
-      const response = await fetch(`/api/lmsUsers/getSubmissions/related?userEmail=${user.email}` ,{
+      const response = await fetch(`/api/lmsUsers/getSubmissions/related?userEmail=${user.email}&assignmentId=${assignment._id}` ,{
         headers:{
           'Authorization':`${user.email} ${user.token}`
         }

@@ -16,7 +16,8 @@ export const useLogout = () => {
     dispatch({type:'LOGOUT'})
 
     // setting null when logout
-    subjectDispatch({type:'GET_ALL_SUBJECTS',payload:null})
+    //subjectDispatch({type:'GET_ALL_SUBJECTS',payload:null})
+    
     // navigate to login
     navigate("/login")
   }

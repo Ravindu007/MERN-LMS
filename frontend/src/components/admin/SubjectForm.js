@@ -88,21 +88,30 @@ const SubjectForm = () => {
         </div>
         <div className="form-group">
           <label>Academic Year</label>
-          <input 
-            type="text"
-            className='form-control'
-            onChange={e=>{setAcademicYear(e.target.value)}}
+          <select 
+            className='form-select'
             value={academicYear}
-          />
+            onChange={e=>{setAcademicYear(e.target.value)}}
+            >
+              <option>Select</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+          </select>
         </div>
         <div className="form-group">
           <label>Department</label>
-          <input 
-            type="text"
-            className='form-control'
-            onChange={e=>{setDepartment(e.target.value)}}
+          <select 
+            className='form-select'
             value={department}
-          />
+            onChange={e=>{setDepartment(e.target.value)}}
+            >
+              <option>Select</option>
+              <option value="CIS">CIS</option>
+              <option value="SE">SE</option>
+              <option value="DS">DS</option>
+          </select>
         </div>
         <button className='btn btn-outline-primary'>Add</button>
       </form>
