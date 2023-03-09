@@ -8,11 +8,13 @@ import { AuthContextProvider } from './context/AuthContext';
 import { LessonContextProvider } from './context/LessonContext';
 import { AssignmentContextProvider } from './context/AssignmentContext';
 import { SubmissionContextProvider } from './context/SubmissionContext';
+import { EventContextProvider } from './context/EventContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
   <AuthContextProvider>
+  <EventContextProvider>
   <SubmissionContextProvider>
   <AssignmentContextProvider>
   <LessonContextProvider>
@@ -24,6 +26,7 @@ root.render(
   </LessonContextProvider>
   </AssignmentContextProvider>
   </SubmissionContextProvider>
+  </EventContextProvider>
   </AuthContextProvider>
   </React.StrictMode>
 );

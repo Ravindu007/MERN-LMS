@@ -19,6 +19,7 @@ import SeperateSubjectStudentView from "./components/users/students/SeperateSubj
 import { useEffect, useState } from "react";
 import ViewMoreAssignment from "./components/users/teachers/Assignments/ViewMoreAssignment";
 import SeperateAssignmentView from "./components/users/students/assignments/SeperateAssignmentView";
+import EventTab from "./pages/adminPages/EventTab";
 
 
 
@@ -65,6 +66,7 @@ function App() {
           <Route path="/admin/teachers" element={user ? <TeacherTab/> : <Navigate to="/login"/>} />
           <Route path="/admin/students" element={user ?<StudentTab/> :<Navigate to="/login"/>} />
           <Route path="/admin/subjects" element={user ? <SubjectTab/> :<Navigate to="/login"/>} />
+          <Route path="/admin/events" element={user ? <EventTab/> :<Navigate to="/login"/>} />
           </>
         )}
 

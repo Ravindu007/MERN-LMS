@@ -18,6 +18,9 @@ const AdminDashboard = () => {
           <Link to="/admin/subjects">
             <button className='btn btn-outline-danger'>Subject Management</button>
           </Link>
+          <Link to="/admin/events">
+            <button className='btn btn-outline-secondary'>Event Management</button>
+          </Link>
         </div>
       </div>
     </div>

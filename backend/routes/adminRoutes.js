@@ -5,6 +5,10 @@ const {createTeacherUser, getAllTeacherUsers, getSingleTeacherUser, updateTeache
 
 const {getAllSubjects, getSingleSubject, createSubject, updateSubject, deleteSubject} = require("../controllers/subjectControllers")
 
+const {getAllEvents, getSingleEvent,createEvent,updateEvent,deleteEvent} = require("../controllers/eventControllers")
+
+
+
 // middleware
 const requireAuth = require("../middleware/requireAuth")
 
@@ -70,6 +74,17 @@ router.patch("/lmsUsers/students/:id",upload.single('studentImage'), updateStude
 router.delete("/lmsUsers/students/:id",deleteStudentUser)
 
 
+
+// admin event routes
+router.get('/events', getAllEvents)
+
+router.get('/events/:id', getSingleEvent)
+
+router.post('/events', upload.single('eventImage') ,createEvent)
+
+router.patch('/events/:id',upload.single('eventImage') , updateEvent)
+
+router.delete('/events/:id', deleteEvent)
 
 
 module.exports = router
