@@ -30,8 +30,10 @@ const EventForm = () => {
     const json  = await response.json()
 
     if(response.ok){
-      //console.log(json);
       dispatch({type:"CREATE_EVENT", payload:json})
+      setEventName("")
+      setEventDetails("")
+      setEventImage(null)
     }
   }
 

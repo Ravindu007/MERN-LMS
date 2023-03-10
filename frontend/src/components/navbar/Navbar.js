@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { useAuthContext } from '../../hooks/useAuthContext'
 import { useLogout } from '../../hooks/useLogout'
 
-const Navbar = ({isAdmin, userRole}) => {
+const Navbar = ({userRole}) => {
   const {user} = useAuthContext()
 
   const {logout} = useLogout()
@@ -14,7 +14,7 @@ const Navbar = ({isAdmin, userRole}) => {
 
   return (
     <nav className="navbar navbar-expand-sm navbar-dark bg-dark">
-      <Link className='navbar-brand'>LMS</Link>
+      <Link to="/" className='navbar-brand'>LMS</Link>
 
       <button className='navbar-toggler' data-toggle="collapse" data-target="#menu"><span className='navbar-toggler-icon'></span></button>
 
@@ -32,7 +32,7 @@ const Navbar = ({isAdmin, userRole}) => {
             {user && (
               <>
               {/* admin link */}
-              {isAdmin && <li className="nav-item"><Link to="/admin" className='nav-link'>ADMIN</Link></li>}
+              {userRole === 'admin' && <li className="nav-item"><Link to="/admin" className='nav-link'>ADMIN</Link></li>}
 
               {/* user links */}
               {userRole === 'teacher' && <li className="nav-item"><Link to="/lmsUser/teacher/subjectView" className='nav-link'>Courses</Link></li>}

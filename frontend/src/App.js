@@ -27,7 +27,7 @@ function App() {
 
   const {user} = useAuthContext()
   
-  const isAdminUser = user && user.email === process.env.REACT_APP_ADMIN_EMAIL;
+  // const isAdminUser = user && user.email === process.env.REACT_APP_ADMIN_EMAIL;
 
   const [fetchUserRole, setFetchUserRole] = useState("")
 
@@ -54,13 +54,23 @@ function App() {
   return (
     <div className="App"> 
     <BrowserRouter>
-      <Navbar isAdmin={isAdminUser} userRole={fetchUserRole}/>
+      <Navbar userRole={fetchUserRole}/>
       <Routes>
         {/* home route */}
         <Route path="/" element={user ? <Home/> : <Navigate to="/login"/>} />
 
         {/* admin routes */}
-        {isAdminUser && (
+        {/* {isAdminUser && (
+          <>
+          <Route path="/admin" element={user ? <AdminDashboard/> : <Navigate to="/login"/>} />
+          <Route path="/admin/teachers" element={user ? <TeacherTab/> : <Navigate to="/login"/>} />
+          <Route path="/admin/students" element={user ?<StudentTab/> :<Navigate to="/login"/>} />
+          <Route path="/admin/subjects" element={user ? <SubjectTab/> :<Navigate to="/login"/>} />
+          <Route path="/admin/events" element={user ? <EventTab/> :<Navigate to="/login"/>} />
+          </>
+        )} */}
+        
+        {fetchUserRole === 'admin' && (
           <>
           <Route path="/admin" element={user ? <AdminDashboard/> : <Navigate to="/login"/>} />
           <Route path="/admin/teachers" element={user ? <TeacherTab/> : <Navigate to="/login"/>} />

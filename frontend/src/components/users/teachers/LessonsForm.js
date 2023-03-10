@@ -32,6 +32,8 @@ const LessonsForm = ({relatedSubject}) => {
 
     if(response.ok){
       dispatch({type:"CREATE_LESSON", payload:json})
+      setLessonName("")
+      setLessonFile(null)
     }
   }
 

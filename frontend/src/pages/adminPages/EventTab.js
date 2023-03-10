@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
 import { useAuthContext } from '../../hooks/useAuthContext'
 import { useEventContext } from '../../hooks/useEventContext'
-import EventForm from './EventForm'
-import EventItem from './EventItem'
+import EventForm from '../../components/admin/EventForm'
+import EventItem from '../../components/admin/EventItem'
 
 const EventTab = () => {
     const {user} = useAuthContext()
