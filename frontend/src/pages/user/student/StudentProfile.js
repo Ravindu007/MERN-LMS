@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import {useAuthContext} from "../../../hooks/useAuthContext"
 import {useAssignmentContext} from "../../../hooks/useAssignmentContext"
@@ -9,6 +9,8 @@ const StudentProfile = () => {
 
   const {user} = useAuthContext()
   const {assignments, dispatch} = useAssignmentContext()
+
+  const [isLoading , setIsLoading] = useState(true)
 
   // student details
   let academicYear = null;
@@ -41,6 +43,7 @@ const StudentProfile = () => {
       const json = await response.json()
       if(response.ok){
         dispatch({type:"GET_ALL_ASSIGNMENTS", payload:json})
+        setIsLoading(false)
       }
     }
 
@@ -52,9 +55,11 @@ const StudentProfile = () => {
 
   return (
     <div className="studentProfile">
-      {assignments && assignments.map((assignment)=>(
-        <ViewAssignment key={assignment._id} assignment={assignment}/>
-      ))}
+      {isLoading ? <p>LOADING</p> : (
+        assignments && assignments.map((assignment)=>(
+          <ViewAssignment key={assignment._id} assignment={assignment}/>
+        ))
+      )}
     </div>
   )
 }
