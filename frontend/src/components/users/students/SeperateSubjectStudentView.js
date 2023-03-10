@@ -75,11 +75,11 @@ const SeperateSubjectStudentView = () => {
   return (
     <div className='seperateSubjectView'>
       {isSubjectLoading ? <p>SubjectName</p> : (
-        <h6 style={{color:"blue"}}>{singleSubject.subjectName}: {singleSubject.taughtBy}</h6>
+        <h6 style={{color:"blue"}}><strong>{singleSubject.subjectName}: {singleSubject.taughtBy}</strong></h6>
       )}
       <div className="row">
       <div className="lessons col-12">
-      <p>Lessons</p>
+      <h6>Lessons</h6>
         {/* fetch lessons related to this subject id */}
         {isLoading ? <p>LOADING....</p> :(
           lessons && lessons.map((lesson)=>(
@@ -88,7 +88,7 @@ const SeperateSubjectStudentView = () => {
         )}
       </div>
       <div className="assignments col-12">
-        <p>assignments</p>
+        <h6>Assignments</h6>
         {/* fetch related assignments related to the subject */}
         {isAssignmentLoading ? <p>LOADING</p> : (
           assignments && assignments.map((assignment)=>(

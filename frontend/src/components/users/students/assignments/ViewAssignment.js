@@ -39,7 +39,7 @@ const ViewAssignment = ({assignment}) => {
   },[user])
 
   return (
-    <div className="viewAssignment" style={{border:"0.2px solid black", display:"flex"}}>
+    <div className="viewAssignment" style={{border:"0.2px solid black", display:"flex", margin:"10px"}}>
       <div className="col-10">
           <p><strong>Assignment title: </strong>{assignment.assignmentTitle}</p>
           <p><strong>Assignment Deadline: </strong>{assignment.deadline}</p>

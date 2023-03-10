@@ -1,16 +1,19 @@
 import "./teacherTab.scss"
 
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import TeacherComponent from '../../components/admin/TeacherComponent'
 import TeacherForm from "../../components/admin/TeacherForm"
 
 import {useLmsUserContext} from "../../hooks/useLmsUser"
 import {useAuthContext} from "../../hooks/useAuthContext"
 
+
+
 const TeacherTab = () => {
   const {user} = useAuthContext()
   const {lmsUsers, dispatch} = useLmsUserContext()
 
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(()=>{
     const fetchALLTeachers = async() =>{
@@ -23,6 +26,7 @@ const TeacherTab = () => {
 
       if(response.ok){
         dispatch({type:"SET_LMSUSERS", payload:json})
+        setIsLoading(false)
       }
     }
 
@@ -36,10 +40,12 @@ const TeacherTab = () => {
     <div className="tab">
       <div className="row">
         <div className="col-8 items">
-          {lmsUsers && 
-            lmsUsers.map((lmsUser)=>(
-                <TeacherComponent  key={lmsUser._id} teacher={lmsUser} />
-            ))}
+          {isLoading ? <p>LOADING...</p> : (
+            lmsUsers && 
+              lmsUsers.map((lmsUser)=>(
+                  <TeacherComponent  key={lmsUser._id} teacher={lmsUser} />
+              ))
+          )}
         </div>
         <div className="col-4 add-item">
           <TeacherForm/>

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import StudentComponent from '../../components/admin/StudentComponent'
 import StudentForm from '../../components/admin/StudentForm'
 import { useLmsUserContext } from '../../hooks/useLmsUser'
@@ -9,6 +9,9 @@ const StudentTab = () => {
   const {user} = useAuthContext()
   
   const {lmsUsers:students, dispatch} = useLmsUserContext()
+
+
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(()=>{
     const fetchAllStudents = async() => {
@@ -21,6 +24,7 @@ const StudentTab = () => {
 
       if(response.ok){
         dispatch({type:'SET_LMSUSERS', payload:json})
+        setIsLoading(false)
       }
     }
 
@@ -34,9 +38,11 @@ const StudentTab = () => {
    <div className='row'>
    <div className="col-8">
      <div className="student-tab">
-      {students && students.map((student)=>(
-        <StudentComponent key={student._id} student={student}/>
-      ))}
+      {isLoading ? <p>Loading..</p> : (
+        students && students.map((student)=>(
+          <StudentComponent key={student._id} student={student}/>
+        ))
+      )}
     </div>
    </div>
    <div className="col-4">

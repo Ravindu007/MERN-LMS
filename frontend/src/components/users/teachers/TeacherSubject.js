@@ -7,7 +7,6 @@ const TeacherSubject = ({subject}) => {
       <div className='card'>
         <div className="card-body" style={{display:"flex"}}>
             <div className="col-9">
-              <p><strong>subject id: </strong>{subject._id}</p>
               <p><strong>Subject Name: </strong>{subject.subjectName}</p>
               <p><strong>Taught by: </strong>{subject.taughtBy}</p>
               <p><strong>Taught by Email: </strong>{subject.taughtByEmail}</p>
