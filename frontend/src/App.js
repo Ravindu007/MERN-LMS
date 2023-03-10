@@ -20,6 +20,7 @@ import { useEffect, useState } from "react";
 import ViewMoreAssignment from "./components/users/teachers/Assignments/ViewMoreAssignment";
 import SeperateAssignmentView from "./components/users/students/assignments/SeperateAssignmentView";
 import EventTab from "./pages/adminPages/EventTab";
+import StudentProfile from "./pages/user/student/StudentProfile";
 
 
 
@@ -103,6 +104,7 @@ function App() {
         <Route path="/lmsUser/student/subjectView" element={user ? <StudentSubjectView/> : <Navigate to="/"/>}/>
         <Route path="/lmsUser/student/subjectView/view/:id" element={user ? <SeperateSubjectStudentView/> : <Navigate to="/"/>}/>
         <Route path="/lmsUser/student/subjectView/assignments/:id" element={user ? <SeperateAssignmentView/> : <Navigate to="/"/>}/>
+        <Route path="/lmsUser/student/profile" element={user ? <StudentProfile/> : <Navigate to="/"/>}/>
       </>
       )}
         

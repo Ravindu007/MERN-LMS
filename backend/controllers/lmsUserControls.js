@@ -158,7 +158,7 @@ const deleteLesson = async(req,res) => {
 
 // assignment controllers
 
-// get all related assignments
+// get all related assignments relavant to a subject
 const getAllAssignements = async(req,res) => {
 
   const subjectId = req.query.subjectId
@@ -180,9 +180,26 @@ const getSingleAssignment = async(req,res) => {
   }
 }
 
+// get all the assignments that a user has to do 
+const getAllAssignementsToTheProfile = async(req,res) => {
+  try{
+    const academicYear = req.query.academicYear
+    const department = req.query.department
+
+    const allAssignments = await assignmentModel.find({academicYear:academicYear, department:department})
+    
+    res.status(200).json(allAssignments)
+    
+  }catch(error){
+    res.status(400).json(error)
+  }
+}
+
+
+
 //create assignment
 const createAssignemnt = async(req,res) => {
-  const {subjectId, assignmentTitle,deadline} = req.body
+  const {subjectId,academicYear, department,  assignmentTitle,deadline} = req.body
 
   try{
     let fileUrl = null
@@ -196,11 +213,11 @@ const createAssignemnt = async(req,res) => {
 
       fileUrl = `https://storage.googleapis.com/${bucket.name}/${file.name}`
 
-      const createdAssignment = await assignmentModel.create({subjectId, assignmentTitle,deadline, assignmentFile:fileUrl})
+      const createdAssignment = await assignmentModel.create({subjectId,academicYear, department, assignmentTitle,deadline, assignmentFile:fileUrl})
 
       res.status(200).json(createdAssignment)
     }else{
-      const createdAssignment = await assignmentModel.create({subjectId, assignmentTitle,deadline, assignmentFile:null})
+      const createdAssignment = await assignmentModel.create({subjectId,academicYear, department, assignmentTitle,deadline, assignmentFile:null})
 
       res.status(200).json(createdAssignment)
     }
@@ -208,7 +225,6 @@ const createAssignemnt = async(req,res) => {
     res.status(400).json(error)
   }
 }
-
 
 const updateAssignment = async(req,res) => {
   const {id} = req.params
@@ -218,6 +234,8 @@ const updateAssignment = async(req,res) => {
 
     // update properties
     assignemnt.subjectId = req.body.subjectId || assignemnt.subjectId
+    assignemnt.academicYear = req.body.academicYear || assignemnt.academicYear
+    assignemnt.department = req.body.department || assignemnt.department
     assignemnt.assignmentTitle = req.body.assignmentTitle || assignemnt.assignmentTitle
     assignemnt.deadline = req.body.deadline || assignemnt.deadline
 
@@ -285,7 +303,6 @@ const getRelavantSubmissionsRelatedToEmail = async(req,res) => {
   }
 }
 
-
 // create response in student view
 const createAssignmentSubmission = async(req,res) => {
   const {assignmentId, registrationNumber, studentEmail} = req.body
@@ -315,4 +332,4 @@ const createAssignmentSubmission = async(req,res) => {
   }
 }
 
-module.exports = {getSingleSubjectByEmail, getSingleSubject,getAllRelatedLessons,createLesson, updateLesson,deleteLesson,getStudentDetails,getRelatedSubjects,getAllAssignements,getSingleAssignment, createAssignemnt, updateAssignment, deleteAssignment,getAllRelatedSubmissions,getRelavantSubmissionsRelatedToEmail, createAssignmentSubmission}
+module.exports = {getSingleSubjectByEmail, getSingleSubject,getAllRelatedLessons,createLesson, updateLesson,deleteLesson,getStudentDetails,getRelatedSubjects,getAllAssignements,getSingleAssignment, createAssignemnt, updateAssignment, deleteAssignment,getAllRelatedSubmissions,getRelavantSubmissionsRelatedToEmail,getAllAssignementsToTheProfile, createAssignmentSubmission}

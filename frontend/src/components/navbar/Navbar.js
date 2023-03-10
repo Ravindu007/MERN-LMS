@@ -39,7 +39,8 @@ const Navbar = ({userRole}) => {
               
               {userRole === 'student' && <li className="nav-item"><Link to="/lmsUser/student/subjectView" className='nav-link'>Courses</Link></li>}
               
-              <span className='nav-link'>{user.email}</span>
+              {userRole === 'student' && <li className="nav-item"><Link to="/lmsUser/student/profile" className='nav-link'>{user.email}</Link></li>}
+              
 
               <li className="nav-item"><Link onClick={handleLogout} className='nav-link'>Logout</Link></li>
               </>

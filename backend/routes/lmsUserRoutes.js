@@ -1,7 +1,7 @@
 const express = require("express")
 const multer = require("multer")
 
-const {getSingleSubjectByEmail, getSingleSubject, getAllRelatedLessons,createLesson, updateLesson,deleteLesson, getStudentDetails,getRelatedSubjects,getAllAssignements,getSingleAssignment, createAssignemnt, updateAssignment, deleteAssignment,getAllRelatedSubmissions,getRelavantSubmissionsRelatedToEmail,createAssignmentSubmission} = require("../controllers/lmsUserControls")
+const {getSingleSubjectByEmail, getSingleSubject, getAllRelatedLessons,createLesson, updateLesson,deleteLesson, getStudentDetails,getRelatedSubjects,getAllAssignements,getSingleAssignment, createAssignemnt, updateAssignment, deleteAssignment,getAllRelatedSubmissions,getRelavantSubmissionsRelatedToEmail,createAssignmentSubmission, getAllAssignementsToTheProfile} = require("../controllers/lmsUserControls")
 
 // middleware
 const requireAuth = require("../middleware/requireAuth")
@@ -63,10 +63,16 @@ router.patch("/teacher/getRelatedAssignments/:id", upload.single('assignmentFile
 router.delete("/teacher/getRelatedAssignments/:id", deleteAssignment)
 
 
+// get all the assignments to the students 
+router.get("/studnet/getAlltheAssignmentsToDo", getAllAssignementsToTheProfile)
+
+
+
 // submission routes (students)
 router.get("/getSubmissions", getAllRelatedSubmissions)
 
 router.get("/getSubmissions/related",getRelavantSubmissionsRelatedToEmail)
+
 
 router.post("/getSubmissions",upload.single('submissionFile'), createAssignmentSubmission)
 

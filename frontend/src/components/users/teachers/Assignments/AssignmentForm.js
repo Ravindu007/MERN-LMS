@@ -9,6 +9,7 @@ const AssignmentForm = ({subject}) => {
   const {user} = useAuthContext()
   const {assignments, dispatch} = useAssignmentContext()
 
+
   const [assignementTitle, setAssignmentTitle] = useState("")
   const [deadline, setDeadline] = useState("")
   const [assignmentFile, setAssignmentFile] = useState(null)
@@ -19,6 +20,8 @@ const AssignmentForm = ({subject}) => {
 
     const formData = new FormData()
     formData.append('subjectId',subject._id)
+    formData.append('academicYear', subject.academicYear)
+    formData.append('department', subject.department)
     formData.append('assignmentTitle', assignementTitle)
     formData.append('deadline',deadline)
     formData.append('assignmentFile', assignmentFile)
