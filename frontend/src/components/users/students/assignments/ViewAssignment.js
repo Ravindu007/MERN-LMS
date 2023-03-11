@@ -40,7 +40,7 @@ const ViewAssignment = ({assignment,parentComponent}) => {
 
   return (
     <div className="viewAssignment" style={{border:"0.2px solid black", display:"flex", margin:"10px"}}>
-      <div className="col-10">
+      <div className="col-9">
           {parentComponent === "/lmsUser/student/profile" && (
               <p><strong>Subject Name: </strong>{assignment.subjectName}</p>
           )}
@@ -50,7 +50,7 @@ const ViewAssignment = ({assignment,parentComponent}) => {
               <img src="/pdf-icon.png" alt="PDF Icon" style={{width:"50px", height:"50px"}} />
           </a>
       </div>
-      <div className="col-2">
+      <div className="col-3">
         <Link to={`/lmsUser/student/subjectView/assignments/${assignment._id}`}>
           <button className='btn btn-success'>ADD A SUBMISSION</button>
         </Link>
