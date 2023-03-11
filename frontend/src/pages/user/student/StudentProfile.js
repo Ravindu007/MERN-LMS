@@ -25,6 +25,7 @@ const StudentProfile = () => {
 
   // show student Details to profile section 
   const [studentFirtsName, setStudentFirstName] = useState("")
+  const [studentRegistrationNumber, setStudentRegistrationNumber] = useState("")
   const [studentDepartment, setStudentDepartment] = useState("")
   const [studentAcademicYear, setStudentAcademicYear] = useState("")
   const [studentImage, setStudentImage] = useState(null)
@@ -43,6 +44,7 @@ const StudentProfile = () => {
         academicYear =  json[0]['academicYear']
         department = json[0]['department']
         setStudentFirstName(json[0]['firstName'])
+        setStudentRegistrationNumber(json[0]['registrationNumber'])
         setStudentAcademicYear(json[0]['academicYear'])
         setStudentDepartment(json[0]['department'])
         setStudentImage(json[0]['studentImage'])
@@ -99,11 +101,12 @@ const StudentProfile = () => {
           ))
         )}
       </div>
-      <div className="col-4">
+      <div className="col-4 profile" style={{border:"0.2px solid black"}}>
         <h6>Profile</h6>
         {isProfileLoading ? <p>Loading</p> : (
           <>
             <p>Welcome <strong> {studentFirtsName}</strong></p>
+            <p><strong>Registration Number: </strong>{studentRegistrationNumber}</p>
             <img src={studentImage} className='mx-auto d-block img-fluid'/>
             <p><strong>Department: </strong>{studentDepartment}</p>
             <p><strong>Academic Year: </strong>{studentAcademicYear}</p>

@@ -70,7 +70,7 @@ const SeperateSubjectStudentView = () => {
     fetchRelatedSubject()
     fetchAllRelatedLessons()
     fetchAssignmentsRelatedToSubject()
-  },[dispatch, user, id])
+  },[dispatch, dispatchAssignments, user, id])
   
   return (
     <div className='seperateSubjectView'>
