@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { useAuthContext } from "../../../../hooks/useAuthContext"
 import {useSubmissionContext} from "../../../../hooks/useSubmissionContext"
 
-const ViewAssignment = ({assignment}) => {
+const ViewAssignment = ({assignment,parentComponent}) => {
 
   const {user} = useAuthContext()
 
@@ -41,6 +41,9 @@ const ViewAssignment = ({assignment}) => {
   return (
     <div className="viewAssignment" style={{border:"0.2px solid black", display:"flex", margin:"10px"}}>
       <div className="col-10">
+          {parentComponent === "/lmsUser/student/profile" && (
+              <p><strong>Subject Name: </strong>{assignment.subjectName}</p>
+          )}
           <p><strong>Assignment title: </strong>{assignment.assignmentTitle}</p>
           <p><strong>Assignment Deadline: </strong>{assignment.deadline}</p>
           <a href={assignment.assignmentFile} className="pdf-link" download target="_blank">

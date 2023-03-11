@@ -199,7 +199,7 @@ const getAllAssignementsToTheProfile = async(req,res) => {
 
 //create assignment
 const createAssignemnt = async(req,res) => {
-  const {subjectId,academicYear, department,  assignmentTitle,deadline} = req.body
+  const {subjectId,subjectName,academicYear, department,  assignmentTitle,deadline} = req.body
 
   try{
     let fileUrl = null
@@ -213,11 +213,11 @@ const createAssignemnt = async(req,res) => {
 
       fileUrl = `https://storage.googleapis.com/${bucket.name}/${file.name}`
 
-      const createdAssignment = await assignmentModel.create({subjectId,academicYear, department, assignmentTitle,deadline, assignmentFile:fileUrl})
+      const createdAssignment = await assignmentModel.create({subjectId,subjectName,academicYear, department, assignmentTitle,deadline, assignmentFile:fileUrl})
 
       res.status(200).json(createdAssignment)
     }else{
-      const createdAssignment = await assignmentModel.create({subjectId,academicYear, department, assignmentTitle,deadline, assignmentFile:null})
+      const createdAssignment = await assignmentModel.create({subjectId,subjectName,academicYear, department, assignmentTitle,deadline, assignmentFile:null})
 
       res.status(200).json(createdAssignment)
     }
@@ -234,6 +234,7 @@ const updateAssignment = async(req,res) => {
 
     // update properties
     assignemnt.subjectId = req.body.subjectId || assignemnt.subjectId
+    assignemnt.subjectName = req.body.subjectName || assignemnt.subjectName
     assignemnt.academicYear = req.body.academicYear || assignemnt.academicYear
     assignemnt.department = req.body.department || assignemnt.department
     assignemnt.assignmentTitle = req.body.assignmentTitle || assignemnt.assignmentTitle

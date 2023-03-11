@@ -57,7 +57,7 @@ const StudentProfile = () => {
     <div className="studentProfile">
       {isLoading ? <p>LOADING</p> : (
         assignments && assignments.map((assignment)=>(
-          <ViewAssignment key={assignment._id} assignment={assignment}/>
+          <ViewAssignment key={assignment._id} assignment={assignment} parentComponent="/lmsUser/student/profile" />
         ))
       )}
     </div>

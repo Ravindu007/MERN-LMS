@@ -4,6 +4,7 @@ const Schema = mongoose.Schema
 
 const assignmentSchema = new Schema({
   subjectId:{type:String,required:true},
+  subjectName:{type:String, required:true},
   academicYear:{type:String, required:true},
   department:{type:String, required:true},
   assignmentTitle:{type:String, required:true},

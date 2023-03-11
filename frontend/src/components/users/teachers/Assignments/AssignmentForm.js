@@ -20,6 +20,7 @@ const AssignmentForm = ({subject}) => {
 
     const formData = new FormData()
     formData.append('subjectId',subject._id)
+    formData.append('subjectName',subject.subjectName)
     formData.append('academicYear', subject.academicYear)
     formData.append('department', subject.department)
     formData.append('assignmentTitle', assignementTitle)
