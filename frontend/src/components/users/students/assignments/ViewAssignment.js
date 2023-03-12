@@ -55,7 +55,16 @@ const ViewAssignment = ({assignment,parentComponent}) => {
           <button className='btn btn-success'>ADD A SUBMISSION</button>
         </Link>
         {/* submission status */}
-        <p>Previous submissions:{isLoading ? <strong>LOADING</strong> :(submissionStatus === true ? <strong>YES</strong> : <strong>NO</strong>)}</p>
+        <p>Previous submissions:{isLoading ? <strong>LOADING</strong> :(submissionStatus === true ? 
+          <>
+            <strong>YES </strong> 
+            <Link to={`/lmsUser/student/allSubmissions?assignmnetId=${assignment._id}`}>
+              <button>view</button>
+            </Link>
+          </>
+          : 
+            <strong>NO</strong>)
+        }</p>
       </div>
     </div>
   )

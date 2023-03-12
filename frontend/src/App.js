@@ -21,6 +21,7 @@ import ViewMoreAssignment from "./components/users/teachers/Assignments/ViewMore
 import SeperateAssignmentView from "./components/users/students/assignments/SeperateAssignmentView";
 import EventTab from "./pages/adminPages/EventTab";
 import StudentProfile from "./pages/user/student/StudentProfile";
+import AllSubmissions from "./components/users/students/assignments/AllSubmissions";
 
 
 
@@ -105,6 +106,7 @@ function App() {
         <Route path="/lmsUser/student/subjectView/view/:id" element={user ? <SeperateSubjectStudentView/> : <Navigate to="/"/>}/>
         <Route path="/lmsUser/student/subjectView/assignments/:id" element={user ? <SeperateAssignmentView/> : <Navigate to="/"/>}/>
         <Route path="/lmsUser/student/profile" element={user ? <StudentProfile/> : <Navigate to="/"/>}/>
+        <Route path="/lmsUser/student/allSubmissions" element={user ? <AllSubmissions/> : <Navigate to="/"/>}/>
       </>
       )}
         
