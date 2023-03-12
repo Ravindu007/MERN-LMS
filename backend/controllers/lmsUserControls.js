@@ -278,6 +278,7 @@ const deleteAssignment = async(req,res) => {
 
 
 
+
 // responses in teacher view
 const getAllRelatedSubmissions = async(req,res) => {
   const assignmentId = req.query.assignmentId
@@ -305,7 +306,7 @@ const getRelavantSubmissionsRelatedToEmail = async(req,res) => {
 
 // create response in student view
 const createAssignmentSubmission = async(req,res) => {
-  const {assignmentId, registrationNumber, studentEmail} = req.body
+  const {assignmentId, registrationNumber, studentEmail, marks} = req.body
 
   try{
     let fileUrl = null
@@ -319,11 +320,11 @@ const createAssignmentSubmission = async(req,res) => {
 
       fileUrl = `https://storage.googleapis.com/${bucket.name}/${file.name}`
 
-      const createdSubmission = await submissionModel.create({assignmentId, registrationNumber,studentEmail, submissionFile:fileUrl})
+      const createdSubmission = await submissionModel.create({assignmentId, registrationNumber,studentEmail,marks, submissionFile:fileUrl})
 
       res.status(200).json(createdSubmission)
     }else{
-      const createdAssignment = await assignmentModel.create({assignmentId, registrationNumber, studentEmail,submissionFile:null})
+      const createdAssignment = await assignmentModel.create({assignmentId, registrationNumber, studentEmail,marks, submissionFile:null})
 
       res.status(200).json(createdAssignment)
     }
@@ -332,4 +333,20 @@ const createAssignmentSubmission = async(req,res) => {
   }
 }
 
-module.exports = {getSingleSubjectByEmail, getSingleSubject,getAllRelatedLessons,createLesson, updateLesson,deleteLesson,getStudentDetails,getRelatedSubjects,getAllAssignements,getSingleAssignment, createAssignemnt, updateAssignment, deleteAssignment,getAllRelatedSubmissions,getRelavantSubmissionsRelatedToEmail,getAllAssignementsToTheProfile, createAssignmentSubmission}
+//add marks by teacher users for assignmnets 
+const updateSubmission = async(req,res)=>{
+  const {id} = req.params
+  try {
+    const submission = await submissionModel.findById(id)
+
+    // update properties
+    submission.marks = req.body.marks || submission.marks
+
+    const updatedSubmission = await submission.save()
+    res.status(200).json(updatedSubmission)
+  } catch (error) {
+    res.status(400).json(error)
+  }
+}
+
+module.exports = {getSingleSubjectByEmail, getSingleSubject,getAllRelatedLessons,createLesson, updateLesson,deleteLesson,getStudentDetails,getRelatedSubjects,getAllAssignements,getSingleAssignment, createAssignemnt, updateAssignment, deleteAssignment,getAllRelatedSubmissions,getRelavantSubmissionsRelatedToEmail,getAllAssignementsToTheProfile, createAssignmentSubmission,updateSubmission}

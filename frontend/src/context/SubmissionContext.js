@@ -11,7 +11,13 @@ export const submissionReducer = (state,action) => {
     case 'CREATE_SUBMISSION':
       return{
         submissions:[action.payload, ...state.submissions]
-      }  
+      }
+    case 'UPDATE_SUBMISSION':
+      const updatedSubmission = state.submissions.map(submission => 
+        submission._id === action.payload.id ? action.payload : submission)
+      return{
+        submissions:updatedSubmission
+      }
     default:
       return state
   }

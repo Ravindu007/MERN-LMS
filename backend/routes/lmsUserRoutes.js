@@ -1,7 +1,7 @@
 const express = require("express")
 const multer = require("multer")
 
-const {getSingleSubjectByEmail, getSingleSubject, getAllRelatedLessons,createLesson, updateLesson,deleteLesson, getStudentDetails,getRelatedSubjects,getAllAssignements,getSingleAssignment, createAssignemnt, updateAssignment, deleteAssignment,getAllRelatedSubmissions,getRelavantSubmissionsRelatedToEmail,createAssignmentSubmission, getAllAssignementsToTheProfile} = require("../controllers/lmsUserControls")
+const {getSingleSubjectByEmail, getSingleSubject, getAllRelatedLessons,createLesson, updateLesson,deleteLesson, getStudentDetails,getRelatedSubjects,getAllAssignements,getSingleAssignment, createAssignemnt, updateAssignment, deleteAssignment,getAllRelatedSubmissions,getRelavantSubmissionsRelatedToEmail,createAssignmentSubmission, getAllAssignementsToTheProfile,updateSubmission} = require("../controllers/lmsUserControls")
 
 // middleware
 const requireAuth = require("../middleware/requireAuth")
@@ -15,6 +15,7 @@ const upload = multer({
   storage:multer.memoryStorage()
 })
 
+const uploadMarks = multer()
 
 
 
@@ -75,5 +76,8 @@ router.get("/getSubmissions/related",getRelavantSubmissionsRelatedToEmail)
 
 
 router.post("/getSubmissions",upload.single('submissionFile'), createAssignmentSubmission)
+
+// mark submissions
+router.patch("/getSubmissions/:id", uploadMarks.none(), updateSubmission)
 
 module.exports = router

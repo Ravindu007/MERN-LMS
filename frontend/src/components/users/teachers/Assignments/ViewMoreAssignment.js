@@ -25,6 +25,10 @@ const ViewMoreAssignment = () => {
   const [isloadSubmissions, setIsLoadSubmissions] = useState(true)
 
 
+  const [shouldRefresh, setShouldRefresh] = useState(false)
+
+
+
   //assignmet id
   const {id} = useParams()
   //fetch single assignment related to the id
@@ -61,7 +65,7 @@ const ViewMoreAssignment = () => {
       fetchSingleAssignemnt()
       fetchAllRelevantSubmissions()
     }
-  },[user, dispatch])
+  },[user, dispatch, shouldRefresh])
 
 
   const handleUpdate = async(e) => {
@@ -187,7 +191,7 @@ const ViewMoreAssignment = () => {
 
         {isloadSubmissions ? <p>LOADING</p> : (
             submissions && submissions.map((submission)=>(
-              <SubmissionView key={submission._id} submission={submission}/>
+              <SubmissionView key={submission._id} submission={submission} refresh={setShouldRefresh}/>
             ))
         )}
       </div>

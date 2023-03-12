@@ -50,6 +50,7 @@ const SeperateAssignmentView = () => {
     formData.append('registrationNumber', userRegistrationNumber)
     formData.append('studentEmail',userEmail)
     formData.append('submissionFile',submissionFile)
+    formData.append('marks','Not graded')
 
     const response = await fetch("/api/lmsUsers/getSubmissions",{
       method:"POST",
