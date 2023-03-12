@@ -1,4 +1,3 @@
-import "./teacherTab.scss"
 
 import React, { useEffect, useState } from 'react'
 import TeacherComponent from '../../components/admin/TeacherComponent'

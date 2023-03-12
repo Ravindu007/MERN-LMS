@@ -68,7 +68,7 @@ const SubjectComponent = ({subject}) => {
   return (
      <>
       {!isEditing && (
-        <div className='card col-4'>
+        <div className='card col-4' style={{border:"0.2px solid black"}}>
         <div className="card-body">
             <p><strong>Subject Name: </strong>{subject.subjectName}</p>
             <p><strong>Taught by: </strong>{subject.taughtBy}</p>

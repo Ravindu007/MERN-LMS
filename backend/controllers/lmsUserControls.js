@@ -49,7 +49,6 @@ const getStudentDetails = async(req,res) => {
 //get subjects related to year and department
 const getRelatedSubjects = async(req,res) => {
   const {department, academicYear} = req.query
-  console.log(department, academicYear);
   try{
     const relatedSubjects = await subjectModel.find({ department: department, academicYear: academicYear})
     res.status(200).json(relatedSubjects)

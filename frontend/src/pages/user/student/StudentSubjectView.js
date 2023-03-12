@@ -67,9 +67,9 @@ const StudentSubjectView = () => {
     <div className="studentSubjectView">
         <div className="subject-set">
           <div className="row" >
-          {isLoading ? <p>LOADIN...</p> : (
+          {isLoading ? <p>  LOADING...</p> : (
             subjects && subjects.map((subject)=>(
-              <div  key={subject._id} className="col-4">
+              <div  key={subject._id} className="col-4" style={{border:"0.2px solid black"}}>
                 <StudentSubject subject={subject}/>
               </div>
             ))

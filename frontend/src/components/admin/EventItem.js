@@ -53,7 +53,7 @@ const EventItem = ({event}) => {
   return (
    <>
     {!isEditing && (
-      <div className="eventItem" style={{border:"0.2px solid black"}}>
+      <div className="eventItem" style={{border:"0.2px solid black", margin:"10px", padding:"10px"}}>
       <div className="row">
         <div className="col-8 details-part">
           <p><strong>Event Name: </strong>{event.eventName}</p>
