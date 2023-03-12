@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useAuthContext } from '../../../../hooks/useAuthContext'
 import { useSubmissionContext } from '../../../../hooks/useSubmissionContext'
@@ -11,8 +11,12 @@ const AllSubmissions = () => {
   const {user} = useAuthContext()
   const {submissions, dispatch} = useSubmissionContext()
 
+
+  const [isLoading, setIsLoading] = useState(true)
+
   const location = useLocation()
   const assignmentId = new URLSearchParams(location.search).get('assignmnetId')
+
 
   // fetch all the submissions related to that assignment id and user email
   useEffect(()=>{
@@ -26,6 +30,7 @@ const AllSubmissions = () => {
       const json  = await response.json()
       if(response.ok){
         dispatch({type:"GET_ALL_SUBMISSIONS", payload:json})
+        setIsLoading(false)
       }
     }
 
@@ -37,9 +42,11 @@ const AllSubmissions = () => {
   return (
     <div className="allSubmissions">
       <p><strong>Assignment Number: </strong>{assignmentId}</p>
-      {submissions && submissions.map((submission)=>(
-        <SubmissionVIewStudent key={submission._id} submission={submission}/>
-      ))}
+      {isLoading ? <p>LOADING</p> : (
+        submissions && submissions.map((submission)=>(
+          <SubmissionVIewStudent key={submission._id} submission={submission}/>
+        ))
+      )}
     </div>
   )
 }
