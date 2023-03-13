@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import {useAuthContext} from "../hooks/useAuthContext"
 import {useEventContext} from "../hooks/useEventContext"
@@ -10,6 +10,9 @@ const Home = () => {
 
   const {user} = useAuthContext()
   const {events, dispatch} = useEventContext()
+
+
+  const [isEventLoading , setIsEventLoading] = useState(true)
 
   // fetching events
   useEffect(()=>{
@@ -23,6 +26,7 @@ const Home = () => {
 
       if(response.ok){
         dispatch({type:"GET_ALL_EVENTS", payload:json})
+        setIsEventLoading(false)
       }
     }
 
@@ -34,10 +38,12 @@ const Home = () => {
     <div className="home">
       <div className="container">
       <div className="row event-row mt-5">
-          <div className="col-12 upcomingEvents" style={{display:"flex", flexWrap:"wrap"}}>
-            {events && events.map((event)=>(
-              <EventItem key={event._id} event={event}/>
-            ))}
+          <div className="col-12 upcomingEvents" style={{display:"flex", flexWrap:"wrap", height:"80vh"}}>
+            {isEventLoading ? <p>LOADING</p> : (
+              events && events.map((event)=>(
+                <EventItem key={event._id} event={event}/>
+              ))
+            )}
           </div>
         </div>
       </div>
